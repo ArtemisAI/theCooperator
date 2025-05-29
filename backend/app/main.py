@@ -17,7 +17,30 @@ def create_app() -> FastAPI:
     phases will mount versioned API routers and add middleware (auth, CORS, …).
     """
 
+    # Initialize FastAPI app
     app = FastAPI(title="theCooperator API", version="0.1.0-DEV")
+    # Configure structured logging
+    try:
+        from app.core.logging import configure_logging
+        configure_logging()
+    except ImportError:
+        pass
+    # Register global error handlers
+    try:
+        from app.core.error_handlers import register_error_handlers
+        register_error_handlers(app)
+    except ImportError:
+        pass
+    # Enable CORS
+    from fastapi.middleware.cors import CORSMiddleware
+    from app.core.config import settings
+    app.add_middleware(
+        CORSMiddleware,
+        allow_origins=settings.BACKEND_CORS_ORIGINS or ["*"],
+        allow_credentials=True,
+        allow_methods=["*"],
+        allow_headers=["*"],
+    )
 
     # Mount API routers ------------------------------------------------------
     app.include_router(get_api_router())

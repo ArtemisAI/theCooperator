@@ -27,6 +27,8 @@ class Settings(BaseSettings):
     # Auth
     JWT_SECRET: str = "changeme-super-secret"  # pragma: allowlist secret
     ACCESS_TOKEN_EXPIRE_MINUTES: int = 30
+    # Celery / Redis broker URL for background jobs
+    CELERY_BROKER_URL: str = "redis://redis:6379/0"
 
     # ------------------------------------------------------------------
     # Derived settings computed from the env-vars above.

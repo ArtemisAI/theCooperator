@@ -13,4 +13,4 @@ Base = declarative_base()
 # This is required for `create_all()` and alembic autogeneration to discover
 # tables. Keep these imports at the bottom to avoid circular dependencies.
 
-from app.models import user, unit, task  # noqa: WPS433,F401 – import for side-effects.
+from app.models import user, unit, task, proposal, vote, score_entry  # noqa: WPS433,F401 – import for side-effects.
