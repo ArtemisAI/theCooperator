@@ -1,0 +1,23 @@
+# ----------------------------------------------------------------------------
+# Backend image *placeholder* for local development.
+# ----------------------------------------------------------------------------
+#
+#   docker build -f infrastructure/Dockerfile.backend -t thecooperator-api .
+# ----------------------------------------------------------------------------
+
+FROM python:3.11-slim
+
+# Create user account to avoid running as root.
+RUN adduser --disabled-password --gecos "" appuser
+
+WORKDIR /opt/app
+
+# Copy minimal set of files (incomplete until requirements freeze).
+COPY backend/ backend/
+COPY infrastructure/requirements.txt requirements.txt
+
+RUN pip install --no-cache-dir -r requirements.txt
+
+USER appuser
+
+CMD ["uvicorn", "app.main:app", "--host", "0.0.0.0", "--port", "8000"]

@@ -1,0 +1,43 @@
+# ------------------------------------------------------------------------------
+# Local development stack for theCooperator (placeholder).
+# ------------------------------------------------------------------------------
+#
+# Usage:
+#     docker compose up -d --build
+#
+# At this stage only a Postgres service is defined; the backend will be added
+# when implementation starts.
+# ------------------------------------------------------------------------------
+
+version: "3.9"
+
+services:
+  db:
+    image: postgres:16-alpine
+    restart: unless-stopped
+    environment:
+      POSTGRES_USER: cooperator
+      POSTGRES_PASSWORD: changeme
+      POSTGRES_DB: coop
+    volumes:
+      - db_data:/var/lib/postgresql/data
+    ports:
+      - "5432:5432"
+
+  backend:
+    build:
+      context: ../
+      dockerfile: infrastructure/Dockerfile.backend
+    depends_on:
+      - db
+    environment:
+      POSTGRES_HOST: db
+      POSTGRES_USER: cooperator
+      POSTGRES_PASSWORD: changeme
+      POSTGRES_DB: coop
+    ports:
+      - "8000:8000"
+    command: ["uvicorn", "app.main:app", "--host", "0.0.0.0", "--port", "8000"]
+
+volumes:
+  db_data: {}
