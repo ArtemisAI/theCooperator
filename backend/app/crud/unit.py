@@ -7,7 +7,7 @@ from typing import Sequence
 from sqlalchemy import select
 from sqlalchemy.ext.asyncio import AsyncSession
 
-from app.models.unit import Unit
+from app.models.unit import Unit, UnitStatus # Added UnitStatus
 from app.schemas.unit import UnitCreate, UnitUpdate
 
 
@@ -22,7 +22,11 @@ async def list_units(session: AsyncSession, *, offset: int = 0, limit: int = 100
 
 
 async def create_unit(session: AsyncSession, obj_in: UnitCreate) -> Unit:
-    db_obj = Unit(label=obj_in.label)
+    db_obj = Unit(
+        label=obj_in.label, # Kept for now, though unit_number is primary
+        unit_number=obj_in.unit_number,
+        status=obj_in.status
+    )
     session.add(db_obj)
     await session.commit()
     await session.refresh(db_obj)
@@ -30,8 +34,9 @@ async def create_unit(session: AsyncSession, obj_in: UnitCreate) -> Unit:
 
 
 async def update_unit(session: AsyncSession, db_obj: Unit, obj_in: UnitUpdate) -> Unit:
-    if obj_in.label is not None:
-        db_obj.label = obj_in.label  # noqa: WPS437
+    update_data = obj_in.dict(exclude_unset=True)
+    for field, value in update_data.items():
+        setattr(db_obj, field, value)
 
     session.add(db_obj)
     await session.commit()

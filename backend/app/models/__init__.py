@@ -1,16 +1,13 @@
-"""SQLAlchemy ORM models – placeholder stage.
+from sqlalchemy.ext.declarative import as_declarative, declared_attr
 
-In later phases we will implement actual tables and relationships. For now we
-only declare a `Base` instance so alembic can establish a migration baseline.
-"""
+@as_declarative()
+class Base:
+    @declared_attr
+    def __tablename__(cls) -> str:
+        if cls.__name__.endswith("s"):
+            return cls.__name__.lower()
+        return cls.__name__.lower() + "s"
 
-from sqlalchemy.orm import declarative_base
-
-
-Base = declarative_base()
-
-# Import model classes so that they are registered on *Base.metadata*.
-# This is required for `create_all()` and alembic autogeneration to discover
-# tables. Keep these imports at the bottom to avoid circular dependencies.
-
-from app.models import user, unit, task, proposal, vote, score_entry  # noqa: WPS433,F401 – import for side-effects.
+from .unit import Unit
+from .member import Member
+from .committee import Committee, CommitteeMemberRole

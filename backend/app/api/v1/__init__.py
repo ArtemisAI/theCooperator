@@ -15,10 +15,10 @@ def get_api_router() -> APIRouter:  # noqa: D401 – factory.
     router = APIRouter(prefix="/api/v1")
 
     # Import here to ensure models/config are ready.
-    from app.api.v1.endpoints import auth, users, units, tasks, votes, metrics, todo  # noqa: WPS433 – runtime import
+    from app.api.v1.endpoints import auth, members, units, tasks, votes, metrics, todo  # noqa: WPS433 – runtime import
 
     router.include_router(auth.router)
-    router.include_router(users.router)
+    router.include_router(members.router) # Replaced users.router
     router.include_router(units.router)
     router.include_router(tasks.router)
     router.include_router(votes.router)

@@ -2,8 +2,7 @@
 
 from __future__ import annotations
 
-from typing import Sequence
-
+from typing import List # Changed from Sequence for consistency with List[schemas.UnitRead]
 from fastapi import APIRouter, Depends, HTTPException, status
 from sqlalchemy.ext.asyncio import AsyncSession
 
@@ -14,13 +13,13 @@ from app.schemas.unit import UnitCreate, UnitRead, UnitUpdate
 router = APIRouter(prefix="/units", tags=["units"])
 
 
-@router.get("/", response_model=list[UnitRead], summary="List units")
+@router.get("/", response_model=List[UnitRead], summary="List units") # Changed to List
 async def list_units(
     *,
     session: AsyncSession = Depends(get_async_session),
     limit: int = 100,
     offset: int = 0,
-) -> Sequence[UnitRead]:
+) -> List[UnitRead]: # Changed to List
     return await crud_unit.list_units(session, offset=offset, limit=limit)
 
 
