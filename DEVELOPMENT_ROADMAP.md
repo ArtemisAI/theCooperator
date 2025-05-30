@@ -41,11 +41,11 @@ Legend 🟢 done 🟡 in progress 🔴 not started
 | Phase | Scope (2-week time-box) | Status |
 |-------|-------------------------|--------|
 | **0** | Project scaffolding, CI, Docker Compose, pre-commit, health-check endpoint | 🟢 completed |
-| **1** | Member + Unit CRUD (API & UI); baseline auth (JWT) | 🟡 15 % |
-| **2** | Task / Responsibility module (Kanban), e-mail reminders | 🔴 |
+| **1** | Member + Unit CRUD (API & UI); baseline auth (JWT) | 🟢 completed |
+| **2** | Task / Responsibility module (Kanban), e-mail reminders | 🟡 in progress |
 | **3** | Voting / Polling engine, live result feed (WebSockets) | 🔴 |
 | **4** | Scorecards & KPI dashboards | 🔴 |
-| **5** | Hardening, docs, 80 % test coverage, CI/CD to staging | 🔴 |
+| **5** | Hardening, docs, 80 % test coverage, CI/CD to staging | 🟡 in progress |
 
 --------------------------------------------------------------------------------
 
@@ -57,74 +57,84 @@ Below each major folder is listed with the **outstanding todo items**.  The
 ### 3.1 `backend/app/`
 
 1. **core/**
-   • `config.py`: move from ad-hoc env parsing to *Pydantic-Settings* model.  
-   • add structured logging (structlog + UVicorn access logs).  
-   • ⚙️ decide on global error-handling & response format.
+   • `config.py`: move from ad-hoc env parsing to *Pydantic-Settings* model. ✅ implemented via Pydantic BaseSettings.
+   • add structured logging (structlog + UVicorn access logs). ⚙️ pending implementation.
+   • implement global error-handling & standardized error responses. ⚙️ pending design.
 
 2. **models/**
-   • complete SQLAlchemy models & relations for `Member`, `Unit`, `Task`,
-     `Proposal`, `Vote`, `ScoreEntry`.  
-   • write initial Alembic revision.
+   • complete SQLAlchemy model stubs for `Member`, `Unit`, `Task`, `Proposal`, `Vote`, `ScoreEntry` (columns & FKs). ✅ model definitions in place.
+   • define ORM `relationship()` attributes for bidirectional associations. ⚙️ pending implementation.
+   • write initial Alembic revision for schema migrations. ⚙️ pending.
 
 3. **schemas/**
-   • Generate matching Pydantic v2 models (DTOs) for every SQL model.  
-   • Introduce `BaseSchema` with JSON-serialisation helpers.
+   • Generate matching Pydantic v2 models (DTOs) for every SQL model. ✅ schemas implemented for all domain types.
+   • Introduce `BaseSchema` with JSON-serialization helpers. ⚙️ consider adding base class for shared config.
 
 4. **api/**
-   • `api.v1.endpoints.auth`: JWT login/refresh + password hashing (passlib).
-   • `api.v1.endpoints.members`: list/create/update/delete + pagination.
-   • `api.v1.endpoints.units`: idem.
-   • After Phase 2: `tasks/`, Phase 3: `votes/`, Phase 4: `metrics/`.
+   • `api.v1.endpoints.auth`: JWT login endpoint with token generation. ✅ implemented.
+   • `api.v1.endpoints.members`: list/create/update/delete + pagination. ✅ implemented.
+   • `api.v1.endpoints.units`: list/create/update/delete. ✅ implemented.
+   • `api.v1.endpoints.tasks`: CRUD for Task objects. ✅ implemented.
+   • `api.v1.endpoints.votes`, `metrics`: placeholder endpoints returning 501. ⚙️ implement in Phases 3 & 4.
+   • `api.v1.endpoints.todo`: in-memory todo example. ⚙️ evaluate removal or integration.
 
 5. **services/**
-   • business rules (e.g. task assignment limits, quorum calculation).
+   • business rules for task assignment limits and quorum calculation. ⚙️ pending implementation in `task_service.py` and `vote_service.py`.
 
 6. **jobs/**
-   • Celery worker configuration.  
-   • tasks: send notification e-mails, recompute scorecards nightly.
+   • Celery app configuration (`celery_app` broker setup). ✅ defined in `jobs/celery.py`.
+   • Celery tasks `send_notification_email` and `recompute_scores` exist as placeholders. ⚙️ implement worker discovery and integrate business logic.
 
 7. **tests/**
-   • bring coverage to ≥80 %; integrate with GitHub Actions.
+   • tests for user & unit endpoints via in-memory SQLite. ✅ passing.
+   • tests for task, vote, metrics endpoints are currently skipped. ⚙️ implement and enable pytest tests; target ≥80% coverage.
+   • GitHub Actions CI pipeline for lint, test, and build. ⚙️ pending workflow setup.
 
 ### 3.2 `frontend/`
 
 1. **Tool-chain**
-   • Vite + React 18 + TS baseline already bootstrapped.  
-   • configure ESLint + Prettier rules (pre-commit).  
-   • add absolute path aliases (`@components/*`, `@api/*`).
+   • Vite + React 18 + TypeScript baseline bootstrapped. ✅ implemented via Vite template.
+   • ESLint + Prettier dependencies installed. ⚙️ add and configure `.eslintrc` & `.prettierrc`; integrate pre-commit.
+   • absolute path aliases configured (`@api`, `@components`, etc.). ✅ implemented in `vite.config.ts`.
 
 2. **api/**
-   • auto-generate type-safe hooks (React Query) from OpenAPI spec ⚙️.
+   • manual API hooks for users implemented (`src/api/users.ts`). ✅ functional for user CRUD.
+   • placeholder hooks for units, tasks, votes, metrics in `src/api/`. ⚙️ implement CRUD hooks and integrate React Query.
+   • configure OpenAPI codegen pipeline for type-safe hook generation. ⚙️ pending.
 
 3. **pages/**
-   • Dashboard ➜ statistics widgets placeholder.  
-   • Members ➜ data-grid CRUD form.  
-   • Units ➜ as above.  
-   • Tasks, Votes & Scorecards ﹣ to be scaffolded in Phases 2 – 4.
+   • Dashboard: scaffold exists in `Dashboard.tsx`. ⚙️ implement data fetching and widgets.
+   • Members: full CRUD UI implemented in `Members.tsx`. ✅ supports list, create, update, delete.
+   • Units: scaffolded in `Units.tsx`. ⚙️ implement list & form for unit management.
+   • Tasks: scaffolded Kanban view in `Tasks.tsx`. ⚙️ implement drag-and-drop and API integration.
+   • Votes: scaffolded in `Votes.tsx`. ⚙️ implement proposals list, voting form, and results.
+   • Scorecards: scaffolded in `Scorecards.tsx`. ⚙️ implement charts and scorecard displays.
 
 4. **components/**
-   • generic `DataTable`, `ConfirmDialog`, `KanbanBoard`, `VoteChart`.
+   • `DataTable`, `ConfirmDialog`, `KanbanBoard`, `VoteChart` components exist as stubs. ⚙️ implement using MUI and charting library (e.g., Recharts).
 
 5. **State management**
-   • keep it minimal: React Query cache + `useContext`.  
-   • ⚙️ re-evaluate once complex cross-page state emerges.
+   • React Query used for user data; ⚙️ ensure global `QueryClientProvider` in `App.tsx`.
+   • `AuthContext` scaffolded in `src/context/AuthContext.tsx`. ⚙️ integrate authentication flows and protected routes.
+   • evaluate advanced state needs once multi-entity interactions scale.
 
 ### 3.3 `infrastructure/`
 
 1. **docker-compose.yml**
-   • add Redis and Celery worker services.  
-   • mount a dedicated Docker volume for Postgres data.  
-   • health-checks for each container.
+   • add Redis and Celery worker services for background jobs. ⚙️ update compose file.
+   • mount a dedicated Docker volume for Postgres data. ✅ configured.
+   • add container health-checks (db, backend, redis). ⚙️ pending.
 
 2. **GitHub Actions**
-   • CI: lint → test → build → push image.  
-   • CD (optional): deploy to staging DigitalOcean droplet.
+   • CI: lint → test → build → push Docker image. ⚙️ create `.github/workflows/ci.yml`.
+   • CD (optional): deploy to staging DigitalOcean/Kubernetes. ⚙️ consider using GitHub Actions or other CI/CD tool.
 
 ### 3.4 `docs/`
 
-• Complete architecture diagrams (C4 model).  
-• Sequence diagram: voting flow.  
-• ERD auto-generated from SQLAlchemy metadata.
+• `architecture.md` draft exists. ⚙️ flesh out C4 component, container, and deployment diagrams.
+• Sequence diagram for voting flow. ⚙️ create UML/PlantUML and include in docs.
+• Auto-generate ERD from SQLAlchemy metadata. ⚙️ integrate ERAlchemy or similar and embed ERD.
+• Business requirements & action plan PDFs present. ✅ reference in `docs/`.
 
 --------------------------------------------------------------------------------
 
