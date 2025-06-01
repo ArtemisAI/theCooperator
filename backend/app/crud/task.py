@@ -2,7 +2,7 @@
 
 from __future__ import annotations
 from typing import Sequence
-from sqlalchemy import select
+from sqlalchemy import select, func
 from sqlalchemy.ext.asyncio import AsyncSession
 from app.models.task import Task
 from app.schemas.task import TaskCreate, TaskUpdate
@@ -66,3 +66,11 @@ async def delete_task(session: AsyncSession, db_obj: Task) -> None:
     """Delete a Task object."""
     await session.delete(db_obj)
     await session.commit()
+
+
+async def count_tasks_by_assignee_id(session: AsyncSession, assignee_id: str) -> int:
+    """Count the number of tasks assigned to a specific user."""
+    result = await session.execute(
+        select(func.count(Task.id)).where(Task.assignee_id == assignee_id)
+    )
+    return result.scalar_one()

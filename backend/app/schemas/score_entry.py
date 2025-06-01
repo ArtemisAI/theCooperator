@@ -2,10 +2,11 @@
 
 from __future__ import annotations
 from datetime import datetime
-from pydantic import BaseModel, Field
+from pydantic import Field # BaseModel is no longer needed directly
+from .base import BaseSchema
 
 
-class ScoreEntryBase(BaseModel):
+class ScoreEntryBase(BaseSchema):
     user_id: str = Field(..., example="user-uuid")
     score: int = Field(..., example=42)
 
@@ -18,5 +19,4 @@ class ScoreEntryRead(ScoreEntryBase):
     id: str
     timestamp: datetime
 
-    class Config:
-        orm_mode = True
+    # Config class is no longer needed, from_attributes=True is inherited from BaseSchema

@@ -2,10 +2,11 @@
 
 from __future__ import annotations
 from datetime import datetime
-from pydantic import BaseModel, Field
+from pydantic import Field # BaseModel is no longer needed directly
+from .base import BaseSchema
 
 
-class ProposalBase(BaseModel):
+class ProposalBase(BaseSchema):
     title: str = Field(..., example="Approve new budget")
     description: str | None = Field(None, example="Yearly spending plan for maintenance")
 
@@ -14,7 +15,7 @@ class ProposalCreate(ProposalBase):
     pass
 
 
-class ProposalUpdate(BaseModel):
+class ProposalUpdate(BaseSchema): # Inherit from BaseSchema
     title: str | None = None
     description: str | None = None
 
@@ -23,5 +24,4 @@ class ProposalRead(ProposalBase):
     id: str
     created_at: datetime
 
-    class Config:
-        orm_mode = True
+    # Config class is no longer needed, from_attributes=True is inherited from BaseSchema

@@ -1,19 +1,18 @@
-from pydantic import BaseModel
 from typing import Optional
+from .base import BaseSchema # Import BaseSchema
 
-class TodoBase(BaseModel):
+class TodoBase(BaseSchema): # Inherit from BaseSchema
     title: str
     completed: bool = False
 
 class TodoCreate(TodoBase):
     pass
 
-class TodoUpdate(BaseModel):
+class TodoUpdate(BaseSchema): # Inherit from BaseSchema
     title: Optional[str] = None
     completed: Optional[bool] = None
 
 class TodoRead(TodoBase):
     id: int
 
-    class Config:
-        orm_mode = True
+    # Config class is no longer needed, from_attributes=True is inherited from BaseSchema

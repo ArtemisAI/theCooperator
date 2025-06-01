@@ -4,7 +4,7 @@ from __future__ import annotations
 
 from typing import Sequence
 
-from sqlalchemy import select
+from sqlalchemy import select, func
 from sqlalchemy.ext.asyncio import AsyncSession
 
 from app.core.security import get_password_hash
@@ -76,3 +76,12 @@ async def delete_user(session: AsyncSession, db_obj: User) -> None:
 
     await session.delete(db_obj)
     await session.commit()
+
+
+async def get_active_users_count(session: AsyncSession) -> int:
+    """Return the total count of active users."""
+    # Assuming "active" means all users for now.
+    # If an 'is_active' field were present, it would be:
+    # select(func.count(User.id)).where(User.is_active == True)
+    result = await session.execute(select(func.count(User.id)))
+    return result.scalar_one()

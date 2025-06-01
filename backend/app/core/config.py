@@ -30,6 +30,9 @@ class Settings(BaseSettings):
     # Celery / Redis broker URL for background jobs
     CELERY_BROKER_URL: str = "redis://redis:6379/0"
 
+    # Logging
+    LOG_LEVEL: str = "INFO"
+
     # ------------------------------------------------------------------
     # Derived settings computed from the env-vars above.
     # ------------------------------------------------------------------

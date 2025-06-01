@@ -1,10 +1,12 @@
 """Pydantic schemas for Vote domain objects."""
 
 from __future__ import annotations
-from pydantic import BaseModel, Field
+from datetime import datetime # Import datetime
+from pydantic import Field # BaseModel is no longer needed directly
+from .base import BaseSchema
 
 
-class VoteBase(BaseModel):
+class VoteBase(BaseSchema):
     proposal_id: str = Field(..., example="proposal-uuid")
     user_id: str = Field(..., example="user-uuid")
     choice: str = Field(..., example="yes")
@@ -16,7 +18,6 @@ class VoteCreate(VoteBase):
 
 class VoteRead(VoteBase):
     id: str
-    created_at: str | None  # ISO datetime string
+    created_at: datetime # Changed to datetime
 
-    class Config:
-        orm_mode = True
+    # Config class is no longer needed, from_attributes=True is inherited from BaseSchema

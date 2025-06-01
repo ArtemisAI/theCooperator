@@ -22,7 +22,8 @@ def create_app() -> FastAPI:
     # Configure structured logging
     try:
         from app.core.logging import configure_logging
-        configure_logging()
+        from app.core.config import settings
+        configure_logging(settings.LOG_LEVEL)
     except ImportError:
         pass
     # Register global error handlers

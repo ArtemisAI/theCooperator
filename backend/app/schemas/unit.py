@@ -2,10 +2,11 @@
 
 from __future__ import annotations
 
-from pydantic import BaseModel, Field
+from pydantic import Field # BaseModel is no longer needed directly
+from .base import BaseSchema
 
 
-class UnitBase(BaseModel):
+class UnitBase(BaseSchema):
     label: str = Field(..., examples=["Unit 2B"])
 
 
@@ -13,12 +14,11 @@ class UnitCreate(UnitBase):
     pass
 
 
-class UnitUpdate(BaseModel):
+class UnitUpdate(BaseSchema): # Inherit from BaseSchema
     label: str | None = None
 
 
 class UnitRead(UnitBase):
     id: str
 
-    class Config:
-        orm_mode = True
+    # Config class is no longer needed, from_attributes=True is inherited from BaseSchema
