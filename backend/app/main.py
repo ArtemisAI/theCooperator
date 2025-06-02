@@ -17,20 +17,23 @@ def create_app() -> FastAPI:
     phases will mount versioned API routers and add middleware (auth, CORS, …).
     """
 
+    # Configure structured logging
+    # This should be one of the first things to do, to ensure all subsequent logs are structured.
+    from app.core.logging import configure_logging
+    configure_logging() # Assuming default log level is fine for startup.
+
+    import structlog # Import structlog for application logging
+    logger = structlog.get_logger(__name__)
+    logger.info("FastAPI application configured and starting up...")
+
     # Initialize FastAPI app
     app = FastAPI(title="theCooperator API", version="0.1.0-DEV")
-    # Configure structured logging
-    try:
-        from app.core.logging import configure_logging
-        configure_logging()
-    except ImportError:
-        pass
+
     # Register global error handlers
-    try:
-        from app.core.error_handlers import register_error_handlers
-        register_error_handlers(app)
-    except ImportError:
-        pass
+    from app.core.error_handlers import APIException, api_exception_handler, generic_exception_handler
+    app.add_exception_handler(APIException, api_exception_handler)
+    app.add_exception_handler(Exception, generic_exception_handler)
+
     # Enable CORS
     from fastapi.middleware.cors import CORSMiddleware
     from app.core.config import settings

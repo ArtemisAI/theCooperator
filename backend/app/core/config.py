@@ -6,12 +6,14 @@ Usage (later):
 """
 
 from functools import lru_cache
-
-from pydantic import BaseSettings, Field
+from pydantic import Field # Removed BaseSettings from here
+from pydantic_settings import BaseSettings # Added import from pydantic_settings
 
 
 class Settings(BaseSettings):
     """Environment-driven settings with sane defaults."""
+
+    DATABASE_URL: str | None = None # Allow full DSN override via env
 
     # Web
     APP_NAME: str = "theCooperator API"
@@ -30,14 +32,21 @@ class Settings(BaseSettings):
     # Celery / Redis broker URL for background jobs
     CELERY_BROKER_URL: str = "redis://redis:6379/0"
 
+    # Task assignment limits
+    MAX_TASKS_PER_USER: int = 5
+
     # ------------------------------------------------------------------
     # Derived settings computed from the env-vars above.
     # ------------------------------------------------------------------
 
     @property
     def DSN_ASYNC(self) -> str:  # noqa: N802
-        """Async DSN for SQLAlchemy (asyncpg driver)."""
-
+        """Async DSN for SQLAlchemy."""
+        if self.DATABASE_URL:
+            # Ensure driver compatibility for SQLite if DATABASE_URL is for SQLite
+            if "sqlite" in self.DATABASE_URL and not self.DATABASE_URL.startswith("sqlite+aiosqlite"):
+                 return self.DATABASE_URL.replace("sqlite","sqlite+aiosqlite")
+            return self.DATABASE_URL
         return (
             f"postgresql+asyncpg://{self.POSTGRES_USER}:{self.POSTGRES_PASSWORD}"
             f"@{self.POSTGRES_HOST}:{self.POSTGRES_PORT}/{self.POSTGRES_DB}"
@@ -46,6 +55,11 @@ class Settings(BaseSettings):
     @property
     def DSN_SYNC(self) -> str:  # noqa: N802
         """Sync DSN for tools that do not yet support async (e.g. Alembic)."""
+        if self.DATABASE_URL and "sqlite" in self.DATABASE_URL:
+            # For Alembic, it might need a sync SQLite DSN.
+            return self.DATABASE_URL.replace("sqlite+aiosqlite", "sqlite")
+        if self.DATABASE_URL: # if DATABASE_URL is set but not for sqlite (e.g. postgres from env)
+            return self.DATABASE_URL.replace("postgresql+asyncpg", "postgresql+psycopg2")
 
         return (
             f"postgresql+psycopg2://{self.POSTGRES_USER}:{self.POSTGRES_PASSWORD}"

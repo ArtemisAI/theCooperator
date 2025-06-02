@@ -26,18 +26,18 @@ async def list_units(
 
 @router.post("/", status_code=201, response_model=UnitRead, summary="Create unit")
 async def create_unit(
+    unit_in: UnitCreate, # Moved before session
     *,
     session: AsyncSession = Depends(get_async_session),
-    unit_in: UnitCreate,
 ) -> UnitRead:
     return await crud_unit.create_unit(session, unit_in)
 
 
 @router.get("/{unit_id}", response_model=UnitRead, summary="Get unit by id")
 async def read_unit(
+    unit_id: str, # Moved before session
     *,
     session: AsyncSession = Depends(get_async_session),
-    unit_id: str,
 ) -> UnitRead:
     db_unit = await crud_unit.get_unit(session, unit_id)
     if not db_unit:
@@ -47,10 +47,10 @@ async def read_unit(
 
 @router.put("/{unit_id}", response_model=UnitRead, summary="Update unit")
 async def update_unit(
+    unit_id: str, # Moved before session
+    unit_in: UnitUpdate, # Moved before session
     *,
     session: AsyncSession = Depends(get_async_session),
-    unit_id: str,
-    unit_in: UnitUpdate,
 ) -> UnitRead:
     db_unit = await crud_unit.get_unit(session, unit_id)
     if not db_unit:
@@ -60,10 +60,10 @@ async def update_unit(
 
 @router.delete("/{unit_id}", status_code=status.HTTP_204_NO_CONTENT, summary="Delete unit")
 async def delete_unit(
+    unit_id: str, # Moved before session
     *,
     session: AsyncSession = Depends(get_async_session),
-    unit_id: str,
-) -> None:
+): # Removed -> None
     db_unit = await crud_unit.get_unit(session, unit_id)
     if not db_unit:
         raise HTTPException(status_code=404, detail="Unit not found")

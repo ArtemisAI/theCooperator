@@ -14,7 +14,7 @@ from fastapi.security import OAuth2PasswordBearer
 from sqlalchemy.ext.asyncio import AsyncSession
 
 from app.core.config import settings
-from app.crud import user as crud_user
+# from app.crud import user as crud_user # Moved into get_current_user
 from app.db import get_async_session
 
 # ---------------------------------------------------------------------------
@@ -68,6 +68,8 @@ async def get_current_user(
     session: AsyncSession = Depends(get_async_session),
 ):
     """Decode JWT and fetch user from DB, raise 401 on failure."""
+    # Moved import here to break circular dependency
+    from app.crud import user as crud_user
 
     credentials_exc = HTTPException(
         status_code=status.HTTP_401_UNAUTHORIZED,

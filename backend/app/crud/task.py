@@ -2,9 +2,9 @@
 
 from __future__ import annotations
 from typing import Sequence
-from sqlalchemy import select
+from sqlalchemy import select, func # Added func
 from sqlalchemy.ext.asyncio import AsyncSession
-from app.models.task import Task
+from app.models.task import Task, TaskStatus # Added TaskStatus
 from app.schemas.task import TaskCreate, TaskUpdate
 
 
@@ -23,6 +23,19 @@ async def list_tasks(
     """Return a slice of tasks ordered by creation date."""
     result = await session.execute(select(Task).offset(offset).limit(limit))
     return result.scalars().all()
+
+
+async def count_active_tasks_by_assignee(session: AsyncSession, assignee_id: str) -> int:
+    """Count active (non-done) tasks assigned to a specific user."""
+    count_query = (
+        select(func.count())
+        .select_from(Task)
+        .where(Task.assignee_id == assignee_id)
+        .where(Task.status != TaskStatus.done)
+    )
+    result = await session.execute(count_query)
+    count = result.scalar_one()
+    return count if count is not None else 0
 
 
 async def create_task(session: AsyncSession, obj_in: TaskCreate) -> Task:

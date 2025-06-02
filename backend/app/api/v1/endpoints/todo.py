@@ -2,7 +2,7 @@ from fastapi import APIRouter, HTTPException, Body, Depends
 from typing import List, Dict
 from app.schemas.todo import TodoCreate, TodoUpdate, TodoRead
 from app.models.user import User # Assuming User model for dependency
-from app.api.deps import get_current_active_user # Assuming this dependency
+# from app.api.deps import get_current_active_user # Assuming this dependency - Module not found
 
 router = APIRouter()
 

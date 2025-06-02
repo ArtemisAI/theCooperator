@@ -8,14 +8,15 @@ Attributes (planned):
 • created_at / updated_at timestamps
 """
 
+import enum # Standard library enum
 from uuid import uuid4
 
-from sqlalchemy import Column, DateTime, Enum, String, func
+from sqlalchemy import Column, DateTime, Enum as SqlAlchemyEnum, String, func # Renamed Enum to SqlAlchemyEnum
 
 from app.models import Base
 
 
-class UserRole(str, Enum):  # type: ignore[call-arg]
+class UserRole(str, enum.Enum): # Inherit from str and enum.Enum for string values
     resident = "resident"
     admin = "admin"
     observer = "observer"
@@ -30,6 +31,6 @@ class User(Base):
     email = Column(String, unique=True, index=True, nullable=False)
     full_name = Column(String, nullable=True)
     hashed_password = Column(String, nullable=False)
-    role = Column(Enum(UserRole), nullable=False, default=UserRole.resident)
+    role = Column(SqlAlchemyEnum(UserRole), nullable=False, default=UserRole.resident) # Use aliased SqlAlchemyEnum
     created_at = Column(DateTime(timezone=True), server_default=func.now())
     updated_at = Column(DateTime(timezone=True), onupdate=func.now())

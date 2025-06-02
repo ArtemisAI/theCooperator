@@ -15,9 +15,9 @@ router = APIRouter(prefix="/auth", tags=["auth"])
 
 @router.post("/login", response_model=Token, summary="User login")
 async def login(
+    credentials: LoginRequest, # Moved before session
     *,
     session: AsyncSession = Depends(get_async_session),
-    credentials: LoginRequest,
 ) -> Token:
     user = await crud_user.get_user_by_email(session, credentials.email.lower())
     if not user or not verify_password(credentials.password, user.hashed_password):

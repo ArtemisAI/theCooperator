@@ -23,21 +23,72 @@ services:
       - db_data:/var/lib/postgresql/data
     ports:
       - "5432:5432"
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U $$POSTGRES_USER -d $$POSTGRES_DB"]
+      interval: 5s
+      timeout: 5s
+      retries: 5
+
+  redis:
+    image: redis:7-alpine # Using a specific version like 7-alpine
+    restart: unless-stopped
+    ports:
+      - "6379:6379"
+    healthcheck:
+      test: ["CMD", "redis-cli", "ping"]
+      interval: 1s
+      timeout: 3s
+      retries: 5
+    volumes:
+      - redis_data:/data
 
   backend:
     build:
       context: ../
       dockerfile: infrastructure/Dockerfile.backend
     depends_on:
-      - db
+      db:
+        condition: service_healthy # Wait for db to be healthy
+      redis:
+        condition: service_healthy # Wait for redis to be healthy
+    environment:
+      POSTGRES_HOST: db
+      POSTGRES_USER: cooperator
+      POSTGRES_PASSWORD: changeme # Consider using Docker secrets or .env file for production
+      POSTGRES_DB: coop
+      CELERY_BROKER_URL: redis://redis:6379/0
+      JWT_SECRET: changeme-super-secret # Default from config.py, consider .env
+    ports:
+      - "8000:8000"
+    command: ["uvicorn", "app.main:app", "--host", "0.0.0.0", "--port", "8000", "--reload"] # Added --reload for dev
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:8000/api/v1/health"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+      start_period: 30s # Give the application time to start up
+
+  celeryworker:
+    build:
+      context: ../
+      dockerfile: infrastructure/Dockerfile.backend
+    command: ["celery", "-A", "app.core.celery_app:app", "worker", "-l", "info", "-Q", "default,another_queue"] # Example queues
     environment:
       POSTGRES_HOST: db
       POSTGRES_USER: cooperator
       POSTGRES_PASSWORD: changeme
       POSTGRES_DB: coop
-    ports:
-      - "8000:8000"
-    command: ["uvicorn", "app.main:app", "--host", "0.0.0.0", "--port", "8000"]
+      CELERY_BROKER_URL: redis://redis:6379/0
+      JWT_SECRET: changeme-super-secret # Default from config.py
+    depends_on:
+      db:
+        condition: service_healthy
+      redis:
+        condition: service_healthy
+    restart: unless-stopped
+    # volumes: # If live reload is needed for worker code, similar to backend
+    #   - ../backend:/app
 
 volumes:
   db_data: {}
+  redis_data: {}

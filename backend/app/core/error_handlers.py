@@ -1,13 +1,40 @@
-"""
-Global error handler registration for theCooperator backend.
+from fastapi import Request # JSONResponse removed from here
+from starlette.responses import JSONResponse # Added import from starlette
+# import logging # Standard logging replaced by structlog
+import structlog
 
-This module will define and register custom exception handlers to standardize
-error responses (e.g., JSON API error format).
-"""
+logger = structlog.get_logger(__name__)
 
-from fastapi import FastAPI
+class APIException(Exception):
+    def __init__(self, status_code: int, detail: str):
+        self.status_code = status_code
+        self.detail = detail
 
-def register_error_handlers(app: FastAPI) -> None:
-    """Register custom exception handlers with the FastAPI app."""
-    # TODO: implement handlers for HTTPException, ValidationError, etc.
-    pass
+class NotFoundException(APIException):
+    def __init__(self, detail: str = "Not Found"):
+        super().__init__(status_code=404, detail=detail)
+
+class BadRequestException(APIException):
+    def __init__(self, detail: str = "Bad Request"):
+        super().__init__(status_code=400, detail=detail)
+
+class UnauthorizedException(APIException):
+    def __init__(self, detail: str = "Unauthorized"):
+        super().__init__(status_code=401, detail=detail)
+
+class ForbiddenException(APIException):
+    def __init__(self, detail: str = "Forbidden"):
+        super().__init__(status_code=403, detail=detail)
+
+async def api_exception_handler(request: Request, exc: APIException):
+    return JSONResponse(
+        status_code=exc.status_code,
+        content={"detail": exc.detail},
+    )
+
+async def generic_exception_handler(request: Request, exc: Exception):
+    logger.error("Unhandled exception", exc_info=exc, request_url=str(request.url))
+    return JSONResponse(
+        status_code=500,
+        content={"detail": "Internal server error"},
+    )
