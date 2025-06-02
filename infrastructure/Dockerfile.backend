@@ -16,7 +16,9 @@ WORKDIR /opt/app
 COPY backend/ backend/
 COPY infrastructure/requirements.txt requirements.txt
 
-RUN pip install --no-cache-dir -r requirements.txt
+# Prepare logs directory and capture pip install output
+RUN mkdir -p /opt/app/logs && \
+    pip install --no-cache-dir -r requirements.txt 2>&1 | tee /opt/app/logs/pip_install.log
 
 USER appuser
 

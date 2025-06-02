@@ -9,8 +9,6 @@
 # when implementation starts.
 # ------------------------------------------------------------------------------
 
-version: "3.9"
-
 services:
   db:
     image: postgres:16-alpine
@@ -22,7 +20,8 @@ services:
     volumes:
       - db_data:/var/lib/postgresql/data
     ports:
-      - "5432:5432"
+      # Host port can be overridden via POSTGRES_PORT env var, defaults to 5432
+      - "${POSTGRES_PORT:-5432}:5432"
 
   backend:
     build:
@@ -38,6 +37,40 @@ services:
     ports:
       - "8000:8000"
     command: ["uvicorn", "app.main:app", "--host", "0.0.0.0", "--port", "8000"]
+  redis:
+    image: redis:7-alpine
+    restart: unless-stopped
+    ports:
+      - "6379:6379"
+
+  worker:
+    build:
+      context: ../
+      dockerfile: infrastructure/Dockerfile.backend
+    depends_on:
+      - backend
+      - redis
+    environment:
+      POSTGRES_HOST: db
+      POSTGRES_USER: cooperator
+      POSTGRES_PASSWORD: changeme
+      POSTGRES_DB: coop
+      CELERY_BROKER_URL: redis://redis:6379/0
+    command: ["celery", "-A", "app.jobs.celery_app", "worker", "--loglevel=info"]
+
+  test:
+    build:
+      context: ../
+      dockerfile: infrastructure/Dockerfile.backend
+    depends_on:
+      - db
+    environment:
+      POSTGRES_HOST: db
+      POSTGRES_USER: cooperator
+      POSTGRES_PASSWORD: changeme
+      POSTGRES_DB: coop
+    working_dir: /opt/app/backend
+    command: ["pytest", "-q", "--disable-warnings", "--maxfail=1"]
 
 volumes:
   db_data: {}
