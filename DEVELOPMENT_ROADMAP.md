@@ -94,7 +94,7 @@ Below each major folder is listed with the **outstanding todo items**.  The
 
 1. **Tool-chain**
    • Vite + React 18 + TypeScript baseline bootstrapped. ✅ implemented via Vite template.
-   • ESLint + Prettier dependencies installed. ⚙️ add and configure `.eslintrc` & `.prettierrc`; integrate pre-commit.
+   • ESLint + Prettier dependencies installed. ✅ .eslintrc & .prettierrc configured; pre-commit integration pending.
    • absolute path aliases configured (`@api`, `@components`, etc.). ✅ implemented in `vite.config.ts`.
 
 2. **api/**
@@ -170,7 +170,7 @@ Below each major folder is listed with the **outstanding todo items**.  The
 ## 6 Next Step for New Contributors
 
 1. Clone the repo and run `docker compose up --build`.  
-2. Pick an open issue from **Phase 1** – labels `good-first-issue` recommended.  
+2. Pick an open issue from the **current 'in progress' phases (refer to Phase Overview & Status)** or a `good-first-issue` from any phase.
 3. Make sure you read the *Developer Setup* section inside `README.md` (will be
    expanded as part of Phase 1).
 
