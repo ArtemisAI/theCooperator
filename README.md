@@ -102,12 +102,20 @@ docker compose up --build
 ```
 
 The API is now on `http://localhost:8000` – open
-`http://localhost:8000/docs` for the Swagger UI.
+`http://localhost:8000/docs` for the Swagger UI. On first run the
+SQLite database will be created automatically with demo data.
 Run the React app from `frontend/` with:
 
 ```bash
 npm install
 npm run dev
+```
+
+Alternatively run the backend directly during early phases:
+
+```bash
+cd backend
+uvicorn app.api:app --reload
 ```
 
 For local testing execute:
