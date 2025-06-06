@@ -41,3 +41,4 @@ frontend/build/
 
 # Archive directory - if you intend to archive build artifacts or large files not version controlled
 archive/
+test.db
