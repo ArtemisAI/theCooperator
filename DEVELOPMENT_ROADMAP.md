@@ -2,7 +2,8 @@
 
 This living document enumerates **everything that is still outstanding** for the
 first public release (v0.1.0) of *theCooperator*.  It complements – but does
-not duplicate – the high-level introduction found in `README.md`.
+not duplicate – the high-level introduction found in `README.md` and the phased
+plan in `ROADMAP_REBOOT.md`.
 
 Anyone picking up a ticket should be able to open this file and immediately
 understand  

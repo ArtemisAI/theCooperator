@@ -1,13 +1,13 @@
  # theCooperator — To-Do List
 
- ## Current Focus: Phase 2 — Task / Responsibility Module
+## Current Focus: Phase 1 — Members & Units
 
- ### Backend
+### Backend
  - [ ] Implement Task CRUD enhancements: due-date reminders and status transitions
  - [ ] Complete business logic in `task_service.py` and `vote_service.py` (assignment limits, quorum calculation)
  - [ ] Remove or integrate the `/api/v1/todo` placeholder endpoint
  - [ ] Implement Celery tasks: `send_notification_email` and `recompute_scores`; configure broker and workers
- - [ ] Add Alembic migrations for current SQLAlchemy models
+- [ ] Add Alembic migrations for current SQLAlchemy models
 - [x] Implement global error handlers and structured logging (structlog + Uvicorn logs)
  - [ ] Finish 501 endpoints: `/metrics/dashboard`, `/metrics/scorecards`, and vote endpoints
 - [x] Write tests for tasks endpoints and basic CRUD flow (metrics & votes pending)
