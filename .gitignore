@@ -1,0 +1,43 @@
+# Ignore virtual environment directory
+.venv/
+
+# Ignore Python cache files
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+
+# Ignore OS-specific files
+.DS_Store
+Thumbs.db
+
+# Ignore IDE-specific files
+.idea/
+.vscode/
+
+# Ignore build artifacts
+build/
+dist/
+*.egg-info/
+
+# Ignore log files
+*.log
+
+# Ignore test reports
+htmlcov/
+.coverage
+*.cover
+
+# Ignore environment variables file
+.env
+
+# Ignore Node.js dependencies
+node_modules/
+
+# Ignore frontend build output
+# (adjust if your frontend build output directory is different)
+frontend/dist/
+frontend/build/
+
+# Archive directory - if you intend to archive build artifacts or large files not version controlled
+archive/
