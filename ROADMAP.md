@@ -1,17 +1,18 @@
- # theCooperator - Project Roadmap
+# theCooperator - Project Roadmap
+
+**Current Stage:** Phase 1 — Members & Units (🟡 in progress)
  
- **Current Stage:** Phase 2 — Task / Responsibility module (🟡 in progress)
+## Completed Phases
+- Phase 0: Foundation stack & CI workflow (🟢 done)
  
- ## Completed Phases
- - Phase 0: Project scaffolding, CI setup, Docker Compose, health-check endpoint (🟢 done)
- - Phase 1: Member & Unit CRUD (API & UI), JWT authentication (🟢 done)
+## In Progress
+- Phase 1: Member & Unit CRUD — API + UI (🟡 in progress)
  
- ## In Progress
- - Phase 2: Task / Responsibility module — Kanban view, due-dates, e-mail reminders (🟡 in progress)
+- Phase 2: Tasks & Duties (🔴)
+- Phase 3: Voting (🔴)
+- Phase 4: Analytics (🔴)
+- Phase 5: File Uploads (🔴)
+- Phase 6: Notifications (🔴)
+- Phase 7: Hardening & Deployment (🔴)
  
- ## Upcoming Phases
- - Phase 3: Voting / Polling engine — proposals, ballots, quorum, live WebSocket results (🔴 not started)
- - Phase 4: Scorecards & KPI dashboards (🔴 not started)
- - Phase 5: Hardening, full documentation, 80%+ test coverage, CI/CD to staging (🟡 in progress)
- 
- For detailed milestones and work items, refer to DEVELOPMENT_ROADMAP.md.
+For detailed milestones and work items, see `ROADMAP_REBOOT.md` and `DEVELOPMENT_ROADMAP.md`.
