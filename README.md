@@ -115,6 +115,7 @@ Alternatively run the backend directly during early phases:
 
 ```bash
 cd backend
+pip install -r requirements.txt
 uvicorn app.api:app --reload
 ```
 

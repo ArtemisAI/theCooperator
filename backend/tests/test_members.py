@@ -7,6 +7,7 @@ Base.metadata.create_all(bind=engine)
 
 client = TestClient(app)
 
+
 def test_create_and_read_member():
     # create unit
     r = client.post("/units/", json={"name": "101"})
@@ -14,7 +15,14 @@ def test_create_and_read_member():
     unit_id = r.json()["id"]
 
     # create member
-    r = client.post("/members/", json={"name": "Alice", "email": "alice@example.com", "unit_id": unit_id})
+    r = client.post(
+        "/members/",
+        json={
+            "name": "Alice",
+            "email": "alice@example.com",
+            "unit_id": unit_id,
+        },
+    )
     assert r.status_code == 200
     member_id = r.json()["id"]
 

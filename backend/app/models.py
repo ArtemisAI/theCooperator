@@ -3,6 +3,7 @@ from sqlalchemy.orm import relationship
 
 from .db import Base
 
+
 class Unit(Base):
     __tablename__ = "units"
 
@@ -10,6 +11,7 @@ class Unit(Base):
     name = Column(String, unique=True, index=True)
 
     members = relationship("Member", back_populates="unit")
+
 
 class Member(Base):
     __tablename__ = "members"

@@ -5,3 +5,5 @@
 - Added SQLite database setup with demo seed data.
 - Added pytest integration test for basic Member flow.
 - Updated README with backend start instructions.
+- Added httpx to requirements and documented pip install step.
+- Tweaked pre-commit to fetch flake8 from GitHub.
