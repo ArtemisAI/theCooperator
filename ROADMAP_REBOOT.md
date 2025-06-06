@@ -154,5 +154,71 @@ From the post‑mortem we learned that file uploads were entirely absent【F:OUT
 - CI pipeline builds, tests, and deploys automatically.
 - Documentation complete and reviewed.
 
+## Phase 8 – Beta Feedback & Polish
+**Goal:** Release a minimal beta to select co-ops and gather feedback.
+
+**Tasks**
+1. Deploy a staging environment for early adopters with seed data.
+2. Enable error tracking (e.g. Sentry) and usage analytics.
+3. Collect feedback via in-app forms and track issues in GitHub.
+4. Prioritise bug fixes and usability improvements.
+5. Document onboarding steps and update README with known issues.
+
+**Checkpoint**
+- Beta testers actively use the system and submit feedback.
+- Major blockers addressed before wider launch.
+
+## Phase 9 – Multi-Co-op Tenancy
+**Goal:** Host multiple cooperatives on the same platform.
+
+**Tasks**
+1. Add a `Coop` tenant model and reference it from all entities.
+2. Update authentication and permissions to enforce tenant isolation.
+3. Extend API and UI to switch between co-ops.
+4. Migrate data and include fixtures for multi-coop demos.
+5. Provide a tenant-aware admin dashboard.
+
+**Checkpoint**
+- Data from different co-ops remains isolated and accessible only to authorised members.
+
+## Phase 10 – Maintenance & Asset Tracking
+**Goal:** Manage building assets and scheduled maintenance.
+
+**Tasks**
+1. Introduce `Asset` and `MaintenanceEvent` models with optional attachments.
+2. Calendar UI showing upcoming maintenance events.
+3. Reminder emails sent via Celery tasks.
+4. Reports summarising maintenance costs and history.
+5. Update documentation with examples and screenshots.
+
+**Checkpoint**
+- Maintenance events appear on the dashboard and reminders work in tests.
+
+## Phase 11 – Finance Integration
+**Goal:** Provide basic accounting and payment capabilities.
+
+**Tasks**
+1. Implement invoice and expense models with CRUD APIs.
+2. Integrate with a payment gateway for dues collection.
+3. Export financial reports to CSV or PDF.
+4. Add roles and permissions for treasurers.
+5. Document security considerations around financial data.
+
+**Checkpoint**
+- Dues payments recorded successfully and financial exports available.
+
+## Phase 12 – Extensions & Community
+**Goal:** Encourage community contributions and third-party integrations.
+
+**Tasks**
+1. Publish stable REST API endpoints with versioning.
+2. Define a plugin architecture and example extension repository.
+3. Provide contributor guide, code of conduct and governance policy.
+4. Automate dependency updates and set release cadence.
+5. Showcase at least one community-created plugin.
+
+**Checkpoint**
+- First external extension installed and documentation updated.
+
 ---
 By advancing through these phases sequentially and verifying each checkpoint, we ensure a stable foundation before tackling more complex features. This approach keeps the scope focused and allows visible progress after every milestone.
