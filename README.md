@@ -49,16 +49,18 @@ Frontend  React 18 + TypeScript + Vite + MUI component library
 DevOps    Docker Compose for local, GitHub Actions CI → optional Kubernetes
 
 
-4 Development Roadmap (condensed)  ↗ Full details in `DEVELOPMENT_ROADMAP.md`
+
+4 Development Roadmap (condensed)  ↗ Full details in `ROADMAP_REBOOT.md`
 -------------------------------------------------------------------------
 
-Phase 0   Scaffolding             🟢 done  
-Phase 1   Members & Units CRUD    🟡 in progress  
-Phase 2   Task Management         🔴  
-Phase 3   Voting / Polling        🔴  
-Phase 4   Dashboards & Scores     🔴  
-Phase 5   Hardening & Deployment  🔴
-
+Phase 0   Foundation              🟢 done
+Phase 1   Members & Units         🟡 in progress
+Phase 2   Tasks & Duties          🔴
+Phase 3   Voting                  🔴
+Phase 4   Analytics               🔴
+Phase 5   File Uploads            🔴
+Phase 6   Notifications           🔴
+Phase 7   Hardening & Deployment  🔴
 
 5 Module Layout (monorepo)
 --------------------------
@@ -84,7 +86,7 @@ infrastructure/
 docs/ architecture.md, business PDFs, etc.
 
 
-6 Quick-start (dev)
+6 Quick-start (dev)
 -------------------
 Prerequisites: Docker + Docker Compose.
 
@@ -95,10 +97,20 @@ docker compose up --build
 ```
 
 The API is now on `http://localhost:8000` – open
-`http://localhost:8000/docs` for the Swagger UI. A minimal *Members* screen is
-available in the React front-end (`frontend/`); run `npm i && npm run dev` to
-see it in action (proxy config still pending).
+`http://localhost:8000/docs` for the Swagger UI.
+Run the React app from `frontend/` with:
 
---------------------------------------------------------------------------------
+```bash
+npm install
+npm run dev
+```
+
+For local testing execute:
+
+```bash
+pre-commit run --all-files
+pytest -q
+npm test
+```
 
 © 2024 theCooperator — MIT licence.
