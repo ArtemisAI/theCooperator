@@ -47,6 +47,11 @@ Legend 🟢 done 🟡 in progress 🔴 not started
 | **3** | Voting / Polling engine, live result feed (WebSockets) | 🔴 |
 | **4** | Scorecards & KPI dashboards | 🔴 |
 | **5** | Hardening, docs, 80 % test coverage, CI/CD to staging | 🟡 in progress |
+| **6** | Beta feedback & polish | 🔴 |
+| **7** | Multi-co-op tenancy | 🔴 |
+| **8** | Maintenance & assets | 🔴 |
+| **9** | Finance integration | 🔴 |
+| **10** | Extensions & community | 🔴 |
 
 --------------------------------------------------------------------------------
 
