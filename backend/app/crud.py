@@ -14,6 +14,24 @@ def create_unit(db: Session, unit: schemas.UnitCreate) -> models.Unit:
 def get_units(db: Session, skip: int = 0, limit: int = 100):
     return db.query(models.Unit).offset(skip).limit(limit).all()
 
+def get_unit(db: Session, unit_id: int):
+    return db.get(models.Unit, unit_id)
+
+def update_unit(db: Session, unit_id: int, unit: schemas.UnitCreate):
+    obj = db.get(models.Unit, unit_id)
+    if obj:
+        obj.name = unit.name
+        db.commit()
+        db.refresh(obj)
+    return obj
+
+def delete_unit(db: Session, unit_id: int):
+    obj = db.get(models.Unit, unit_id)
+    if obj:
+        db.delete(obj)
+        db.commit()
+    return obj
+
 # Member CRUD
 
 def create_member(db: Session, member: schemas.MemberCreate) -> models.Member:
@@ -28,6 +46,16 @@ def get_members(db: Session, skip: int = 0, limit: int = 100):
 
 def get_member(db: Session, member_id: int):
     return db.get(models.Member, member_id)
+
+def update_member(db: Session, member_id: int, member: schemas.MemberCreate):
+    obj = db.get(models.Member, member_id)
+    if obj:
+        obj.name = member.name
+        obj.email = member.email
+        obj.unit_id = member.unit_id
+        db.commit()
+        db.refresh(obj)
+    return obj
 
 def delete_member(db: Session, member_id: int):
     obj = db.get(models.Member, member_id)

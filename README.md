@@ -118,6 +118,25 @@ cd backend
 uvicorn app.api:app --reload
 ```
 
+To initialise the local database using Alembic migrations run:
+
+```bash
+alembic upgrade head
+```
+
+## Data Model (Phase 1)
+
+```
+ +------------+        +-------------+
+ | Unit       |        | Member      |
+ +------------+        +-------------+
+ | id   PK    |<--+  +-| id     PK   |
+ | name       |    |  | name        |
+ +------------+    |  | email       |
+                  +--| unit_id  FK |
+                     +-------------+
+```
+
 For local testing execute:
 
 ```bash
