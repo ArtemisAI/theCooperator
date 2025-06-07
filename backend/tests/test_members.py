@@ -30,6 +30,11 @@ def test_create_and_read_member():
     data = r.json()
     assert data["email"] == "alice@example.com"
 
+    # update member
+    r = client.put(f"/members/{member_id}", json={"name": "Alice B", "email": "alice.b@example.com", "unit_id": unit_id})
+    assert r.status_code == 200
+    assert r.json()["name"] == "Alice B"
+
     # delete member
     r = client.delete(f"/members/{member_id}")
     assert r.status_code == 200
