@@ -175,9 +175,9 @@ Below each major folder is listed with the **outstanding todo items**.  The
 
 ## 6 Next Step for New Contributors
 
-1. Clone the repo and run `docker compose up --build`.  
-2. Pick an open issue from **Phase 1** – labels `good-first-issue` recommended.  
+1. Clone the repo and run `docker compose up --build`.
+2. Pick an open issue from **Phase 2** – labels `good-first-issue` recommended.
 3. Make sure you read the *Developer Setup* section inside `README.md` (will be
-   expanded as part of Phase 1).
+   expanded as part of Phase 2).
 
 Happy hacking! 💜

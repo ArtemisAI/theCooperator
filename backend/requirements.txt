@@ -5,3 +5,7 @@ pydantic
 alembic
 httpx
 pytest
+httpx
+celery
+redis
+aiosmtplib

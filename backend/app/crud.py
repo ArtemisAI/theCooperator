@@ -63,3 +63,34 @@ def delete_member(db: Session, member_id: int):
         db.delete(obj)
         db.commit()
     return obj
+
+# Task CRUD
+
+def create_task(db: Session, task: schemas.TaskCreate) -> models.Task:
+    db_task = models.Task(
+        title=task.title,
+        status=task.status or models.TaskStatus.todo,
+        priority=task.priority or models.TaskPriority.medium,
+        due_date=task.due_date,
+        assignee_id=task.assignee_id,
+    )
+    db.add(db_task)
+    db.commit()
+    db.refresh(db_task)
+    return db_task
+
+
+def get_tasks(db: Session, skip: int = 0, limit: int = 100):
+    return db.query(models.Task).offset(skip).limit(limit).all()
+
+
+def get_task(db: Session, task_id: int):
+    return db.get(models.Task, task_id)
+
+
+def delete_task(db: Session, task_id: int):
+    obj = db.get(models.Task, task_id)
+    if obj:
+        db.delete(obj)
+        db.commit()
+    return obj

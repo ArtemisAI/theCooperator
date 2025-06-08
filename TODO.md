@@ -1,6 +1,6 @@
  # theCooperator — To-Do List
 
-## Current Focus: Phase 1 — Members & Units
+## Current Focus: Phase 2 — Tasks & Duties
 
 ### Backend
  - [ ] Implement Task CRUD enhancements: due-date reminders and status transitions
