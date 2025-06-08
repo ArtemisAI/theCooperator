@@ -1,5 +1,6 @@
-from sqlalchemy import Column, Integer, String, ForeignKey
+from sqlalchemy import Column, Integer, String, ForeignKey, Date, Enum
 from sqlalchemy.orm import relationship
+import enum
 
 from .db import Base
 
@@ -20,3 +21,28 @@ class Member(Base):
     unit_id = Column(Integer, ForeignKey("units.id"))
 
     unit = relationship("Unit", back_populates="members")
+
+
+class TaskStatus(str, enum.Enum):
+    todo = "todo"
+    in_progress = "in_progress"
+    done = "done"
+
+
+class TaskPriority(str, enum.Enum):
+    low = "low"
+    medium = "medium"
+    high = "high"
+
+
+class Task(Base):
+    __tablename__ = "tasks"
+
+    id = Column(Integer, primary_key=True, index=True)
+    title = Column(String, index=True)
+    status = Column(Enum(TaskStatus), default=TaskStatus.todo)
+    priority = Column(Enum(TaskPriority), default=TaskPriority.medium)
+    due_date = Column(Date, nullable=True)
+    assignee_id = Column(Integer, ForeignKey("members.id"), nullable=True)
+
+    assignee = relationship("Member")

@@ -116,6 +116,7 @@ Alternatively run the backend directly during early phases:
 ```bash
 cd backend
 uvicorn app.api:app --reload
+celery -A app.celery_app.celery_app worker --loglevel=info  # optional
 ```
 
 For local testing execute:
