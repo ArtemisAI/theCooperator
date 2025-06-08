@@ -1,14 +1,13 @@
 # theCooperator - Project Roadmap
 
-**Current Stage:** Phase 1 — Members & Units (🟡 in progress)
+**Current Stage:** Phase 2 — Tasks & Duties (🟡 in progress)
  
 ## Completed Phases
 - Phase 0: Foundation stack & CI workflow (🟢 done)
- 
+- Phase 1: Member & Unit CRUD — API + UI (🟢 done)
+
 ## In Progress
-- Phase 1: Member & Unit CRUD — API + UI (🟡 in progress)
- 
-- Phase 2: Tasks & Duties (🔴)
+- Phase 2: Tasks & Duties (🟡 in progress)
 - Phase 3: Voting (🔴)
 - Phase 4: Analytics (🔴)
 - Phase 5: File Uploads (🔴)

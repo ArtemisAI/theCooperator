@@ -54,8 +54,8 @@ DevOps    Docker Compose for local, GitHub Actions CI → optional Kubernetes
 -------------------------------------------------------------------------
 
 Phase 0   Foundation              🟢 done
-Phase 1   Members & Units         🟡 in progress
-Phase 2   Tasks & Duties          🔴
+Phase 1   Members & Units         🟢 done
+Phase 2   Tasks & Duties          🟡 in progress
 Phase 3   Voting                  🔴
 Phase 4   Analytics               🔴
 Phase 5   File Uploads            🔴
@@ -115,7 +115,9 @@ Alternatively run the backend directly during early phases:
 
 ```bash
 cd backend
+pip install -r requirements.txt
 uvicorn app.api:app --reload
+celery -A app.celery_app.celery_app worker --loglevel=info  # optional
 ```
 
 For local testing execute:
@@ -124,6 +126,16 @@ For local testing execute:
 pre-commit run --all-files
 pytest -q
 npm test
+```
+
+### Developer Setup
+
+If you prefer to run the backend without Docker:
+
+```bash
+cd backend
+pip install -r requirements.txt
+pre-commit install   # optional linting hooks
 ```
 
 © 2024 theCooperator — MIT licence.

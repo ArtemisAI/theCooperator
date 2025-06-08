@@ -3,3 +3,7 @@ uvicorn
 sqlalchemy
 pydantic
 pytest
+httpx
+celery
+redis
+aiosmtplib
