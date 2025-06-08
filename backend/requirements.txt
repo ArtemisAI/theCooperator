@@ -1,5 +1,10 @@
+aiosmtplib
+alembic
+celery
 fastapi
-uvicorn
-sqlalchemy
+httpx
 pydantic
 pytest
+redis
+sqlalchemy
+uvicorn
