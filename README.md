@@ -54,8 +54,8 @@ DevOps    Docker Compose for local, GitHub Actions CI → optional Kubernetes
 -------------------------------------------------------------------------
 
 Phase 0   Foundation              🟢 done
-Phase 1   Members & Units         🟡 in progress
-Phase 2   Tasks & Duties          🔴
+Phase 1   Members & Units         🟢 done
+Phase 2   Tasks & Duties          🟡 in progress
 Phase 3   Voting                  🔴
 Phase 4   Analytics               🔴
 Phase 5   File Uploads            🔴
