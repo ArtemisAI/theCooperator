@@ -1,8 +1,7 @@
 from fastapi.testclient import TestClient
-from app.api import app, Base, engine
+from app.api import app, reset_demo_db
 
-Base.metadata.drop_all(bind=engine)
-Base.metadata.create_all(bind=engine)
+reset_demo_db()
 
 client = TestClient(app)
 
