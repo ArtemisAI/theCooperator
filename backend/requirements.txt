@@ -4,7 +4,14 @@ celery
 fastapi
 httpx
 pydantic
+alembic
+httpx
 pytest
 redis
 sqlalchemy
 uvicorn
+httpx
+celery
+redis
+aiosmtplib
+
