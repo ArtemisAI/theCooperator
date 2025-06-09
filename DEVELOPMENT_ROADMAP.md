@@ -71,11 +71,18 @@ Every bullet point above should become a GitHub issue with labels:
 
 Small PRs › easier review. Include unit tests & documentation where relevant.
 
+
+1. Clone the repo and run `docker compose up --build`.
+2. Pick an open issue from **Phase 2** – labels `good-first-issue` recommended.
+3. Make sure you read the *Developer Setup* section inside `README.md` (will be
+   expanded as part of Phase 2).
+
 Definition of Done (DoD)
 • all automated tests pass
 • code-coverage does not regress
 • lints (pre-commit run --all-files) are clean
 • documentation is updated (OpenAPI, this file, READMEs).
+
 
 5 Environment Variables (summary)
 Name	Example	Purpose

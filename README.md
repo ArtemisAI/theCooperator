@@ -115,8 +115,11 @@ Alternatively run the backend directly during early phases:
 
 ```bash
 cd backend
+pip install -r requirements.txt
 uvicorn app.api:app --reload
 celery -A app.celery_app.celery_app worker --loglevel=info  # optional
+
+=======
 ```
 
 To initialise the local database using Alembic migrations run:
@@ -127,7 +130,7 @@ alembic upgrade head
 
 ## Data Model (Phase 1)
 
-```
+
  +------------+        +-------------+
  | Unit       |        | Member      |
  +------------+        +-------------+
@@ -136,14 +139,15 @@ alembic upgrade head
  +------------+    |  | email       |
                   +--| unit_id  FK |
                      +-------------+
-```
 
-For local testing execute:
+Developer Setup
+
+If you prefer to run the backend without Docker:
 
 ```bash
-pre-commit run --all-files
-pytest -q
-npm test
+cd backend
+pip install -r requirements.txt
+pre-commit install   # optional linting hooks
 ```
 
 © 2024 theCooperator — MIT licence.
