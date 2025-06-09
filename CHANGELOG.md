@@ -6,6 +6,10 @@
 - Implemented Task model, CRUD API and tests.
 - Added Celery skeleton for due-date reminders.
 
+### Added
+- `/demo/reset` endpoint for recreating demo fixtures
+- Shared seeding logic for tests and local demo instances
+
 ## [0.1.0] - Initial Phase 1 Skeleton
 - Added backend FastAPI application with Member and Unit CRUD endpoints.
 - Added SQLite database setup with demo seed data.

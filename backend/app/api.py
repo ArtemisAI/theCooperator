@@ -2,23 +2,16 @@ from fastapi import FastAPI, Depends
 from sqlalchemy.orm import Session
 
 from . import models, schemas, crud
-from .db import engine, Base
+from .db import engine, Base, SessionLocal
 from .dependencies import get_db
+from .demo import seed_demo_data, reset_demo_db
 
 Base.metadata.create_all(bind=engine)
 
 # Seed demo data if database is empty
-with engine.begin() as conn:
-    if not conn.execute(models.Unit.__table__.select()).first():
-        conn.execute(models.Unit.__table__.insert(), [{"name": "101"}, {"name": "102"}])
-    if not conn.execute(models.Member.__table__.select()).first():
-        conn.execute(
-            models.Member.__table__.insert(),
-            [
-                {"name": "Alice", "email": "alice@example.com", "unit_id": 1},
-                {"name": "Bob", "email": "bob@example.com", "unit_id": 2},
-            ],
-        )
+with SessionLocal() as session:
+    if not session.query(models.Unit).first():
+        seed_demo_data(session)
 
 app = FastAPI()
 
@@ -81,3 +74,9 @@ def read_task(task_id: int, db: Session = Depends(get_db)):
 @app.delete("/tasks/{task_id}", response_model=schemas.Task | None)
 def remove_task(task_id: int, db: Session = Depends(get_db)):
     return crud.delete_task(db, task_id)
+
+
+@app.post("/demo/reset")
+def demo_reset():
+    reset_demo_db()
+    return {"detail": "database reset"}

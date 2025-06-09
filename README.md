@@ -103,7 +103,8 @@ docker compose up --build
 
 The API is now on `http://localhost:8000` – open
 `http://localhost:8000/docs` for the Swagger UI. On first run the
-SQLite database will be created automatically with demo data.
+SQLite database will be created automatically with demo data. You can
+reset the demo fixtures at any time by calling `POST /demo/reset`.
 Run the React app from `frontend/` with:
 
 ```bash

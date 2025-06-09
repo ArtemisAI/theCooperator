@@ -39,3 +39,37 @@ similar container orchestrator.
 
 See `ROADMAP_REBOOT.md` for the phased development plan and `README.md` for a
 quick overview of the project goals.
+
+## 5. Database Schema
+
+The backend currently uses **SQLAlchemy** models with **Alembic** migrations to
+manage schema updates.  During development an SQLite database is created
+automatically; production deployments target PostgreSQL.  Administrators can add
+or remove columns via new migration scripts.
+
+### Tables
+
+| Table       | Key | Fields & Notes                                                                |
+|-------------|-----|-------------------------------------------------------------------------------|
+| `units`     | `id` PK | `name` (unique)                                                            |
+| `members`   | `id` PK | `name`, `email` (unique), `unit_id` → `units.id`                           |
+| `tasks`     | `id` PK | `title`, `status` enum, `priority` enum, `due_date`, `assignee_id` → `members.id` |
+| `committees` *(planned)* | `id` PK | `name`, `description`                                         |
+
+### Relationships
+
+* **Unit → Member** – one unit may have many members. Members reference their
+  unit via `unit_id`.
+* **Member → Task** – tasks may optionally be assigned to a member via
+  `assignee_id`.
+* **Committee → Task** – future work will allow tasks to be linked to
+  committees, enabling group ownership.
+
+### Administration
+
+CRUD endpoints expose these tables so data can be created, updated or deleted
+through the API or a future admin UI.  When schema changes are required,
+administrators create Alembic migrations to alter the tables safely and keep
+environments in sync.
+For local demos and tests a helper endpoint `POST /demo/reset` drops all
+tables and re-inserts the default fixtures.
