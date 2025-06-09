@@ -7,6 +7,9 @@ class UnitBase(BaseModel):
 class UnitCreate(UnitBase):
     pass
 
+class UnitUpdate(UnitBase):
+    pass
+
 class Unit(UnitBase):
     id: int
 
@@ -19,6 +22,9 @@ class MemberBase(BaseModel):
     unit_id: Optional[int] = None
 
 class MemberCreate(MemberBase):
+    pass
+
+class MemberUpdate(MemberBase):
     pass
 
 class Member(MemberBase):

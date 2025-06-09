@@ -118,17 +118,29 @@ cd backend
 pip install -r requirements.txt
 uvicorn app.api:app --reload
 celery -A app.celery_app.celery_app worker --loglevel=info  # optional
+
+=======
 ```
 
-For local testing execute:
+To initialise the local database using Alembic migrations run:
 
 ```bash
-pre-commit run --all-files
-pytest -q
-npm test
+alembic upgrade head
 ```
 
-### Developer Setup
+## Data Model (Phase 1)
+
+
+ +------------+        +-------------+
+ | Unit       |        | Member      |
+ +------------+        +-------------+
+ | id   PK    |<--+  +-| id     PK   |
+ | name       |    |  | name        |
+ +------------+    |  | email       |
+                  +--| unit_id  FK |
+                     +-------------+
+
+Developer Setup
 
 If you prefer to run the backend without Docker:
 

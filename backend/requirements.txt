@@ -2,6 +2,8 @@ fastapi
 uvicorn
 sqlalchemy
 pydantic
+alembic
+httpx
 pytest
 httpx
 celery

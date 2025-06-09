@@ -30,6 +30,18 @@ def create_unit(unit: schemas.UnitCreate, db: Session = Depends(get_db)):
 def read_units(skip: int = 0, limit: int = 100, db: Session = Depends(get_db)):
     return crud.get_units(db, skip=skip, limit=limit)
 
+@app.get("/units/{unit_id}", response_model=schemas.Unit | None)
+def read_unit(unit_id: int, db: Session = Depends(get_db)):
+    return crud.get_unit(db, unit_id)
+
+@app.put("/units/{unit_id}", response_model=schemas.Unit | None)
+def update_unit(unit_id: int, unit: schemas.UnitUpdate, db: Session = Depends(get_db)):
+    return crud.update_unit(db, unit_id, unit)
+
+@app.delete("/units/{unit_id}", response_model=schemas.Unit | None)
+def remove_unit(unit_id: int, db: Session = Depends(get_db)):
+    return crud.delete_unit(db, unit_id)
+
 @app.post("/members/", response_model=schemas.Member)
 def create_member(member: schemas.MemberCreate, db: Session = Depends(get_db)):
     return crud.create_member(db, member)
@@ -41,6 +53,10 @@ def read_members(skip: int = 0, limit: int = 100, db: Session = Depends(get_db))
 @app.get("/members/{member_id}", response_model=schemas.Member | None)
 def read_member(member_id: int, db: Session = Depends(get_db)):
     return crud.get_member(db, member_id)
+
+@app.put("/members/{member_id}", response_model=schemas.Member | None)
+def update_member(member_id: int, member: schemas.MemberUpdate, db: Session = Depends(get_db)):
+    return crud.update_member(db, member_id, member)
 
 @app.delete("/members/{member_id}", response_model=schemas.Member | None)
 def remove_member(member_id: int, db: Session = Depends(get_db)):
