@@ -36,6 +36,7 @@ core/ • config.py: move from ad-hoc env parsing to Pydantic-Settings model. �
 
 models/ • complete SQLAlchemy model stubs for Member, Unit, Task, Proposal, Vote, ScoreEntry (columns & FKs). ✅ model definitions in place. • define ORM relationship() attributes for bidirectional associations. ⚙️ pending implementation. • write initial Alembic revision for schema migrations. ⚙️ pending.
 
+
 schemas/ • Generate matching Pydantic v2 models (DTOs) for every SQL model. ✅ schemas implemented for all domain types. • Introduce BaseSchema with JSON-serialization helpers. ⚙️ consider adding base class for shared config.
 
 api/ • api.v1.endpoints.auth: JWT login endpoint with token generation. ✅ implemented. • api.v1.endpoints.members: list/create/update/delete + pagination. ✅ implemented. • api.v1.endpoints.units: list/create/update/delete. ✅ implemented. • api.v1.endpoints.tasks: CRUD for Task objects. ✅ implemented. • api.v1.endpoints.votes, metrics: placeholder endpoints returning 501. ⚙️ implement in Phases 3 & 4. • api.v1.endpoints.todo: in-memory todo example. ⚙️ evaluate removal or integration.
@@ -65,6 +66,39 @@ GitHub Actions • CI: lint → test → build → push Docker image. ⚙️ cre
 3.4 docs/
 • architecture.md draft exists. ⚙️ flesh out C4 component, container, and deployment diagrams. • Sequence diagram for voting flow. ⚙️ create UML/PlantUML and include in docs. • Auto-generate ERD from SQLAlchemy metadata. ⚙️ integrate ERAlchemy or similar and embed ERD. • Business requirements & action plan PDFs present. ✅ reference in docs/.
 
+
+4 Issue Tracking & Contribution Workflow
+Every bullet point above should become a GitHub issue with labels:
+• phase:X • backend / frontend / infra • good-first-issue (if easy).
+
+Small PRs › easier review. Include unit tests & documentation where relevant.
+
+Definition of Done (DoD)
+• all automated tests pass
+• code-coverage does not regress
+• lints (pre-commit run --all-files) are clean
+• documentation is updated (OpenAPI, this file, READMEs).
+
+
+--------------------------------------------------------------------------------
+
+## 5 Environment Variables (summary)
+
+| Name | Example | Purpose |
+|------|---------|---------|
+| `POSTGRES_HOST` | `postgres` | hostname of DB container |
+| `POSTGRES_DB`   | `thecooperator` | database name |
+| `POSTGRES_USER` | `tc_app` | DB user |
+| `POSTGRES_PASSWORD` | `super-secret` | DB password |
+| `JWT_SECRET`    | `change-me-pls` | HMAC secret for auth tokens |
+| `CELERY_BROKER_URL` | `redis://redis:6379/0` | Celery / Redis |
+
+--------------------------------------------------------------------------------
+
+## 6 Next Step for New Contributors
+
+=======
+
 4 Issue Tracking & Contribution Workflow
 Every bullet point above should become a GitHub issue with labels:
 • phase:X • backend / frontend / infra • good-first-issue (if easy).
@@ -72,10 +106,12 @@ Every bullet point above should become a GitHub issue with labels:
 Small PRs › easier review. Include unit tests & documentation where relevant.
 
 
+
 1. Clone the repo and run `docker compose up --build`.
 2. Pick an open issue from **Phase 2** – labels `good-first-issue` recommended.
 3. Make sure you read the *Developer Setup* section inside `README.md` (will be
    expanded as part of Phase 2).
+
 
 Definition of Done (DoD)
 • all automated tests pass
@@ -96,4 +132,5 @@ CELERY_BROKER_URL	redis://redis:6379/0	Celery / Redis
 Clone the repo and run docker compose up --build.
 Pick an open issue from the current 'in progress' phases (refer to Phase Overview & Status) or a good-first-issue from any phase.
 Make sure you read the Developer Setup section inside README.md (will be expanded as part of Phase 1).
-Happy hacking! 💜
+
+
