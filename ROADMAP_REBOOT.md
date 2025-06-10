@@ -51,14 +51,14 @@ To avoid repeating these issues we will progress in clearly defined phases with 
 **Goal:** Track tasks and responsibilities.
 
 **Tasks**
-1. Add `Task` model with status, priority and due date fields.
-   Create migration scripts and populate enumerations.
+1. Add `Task` model with lane_id and sort_index fields plus status, priority and due date.
+   Create Alembic migration and seed default lanes.
 2. CRUD API with business rules for assignment limits and permission checks.
+   Expose `/lanes` endpoints and `/tasks/reorder` with WebSocket broadcast.
 3. Celery task for due‑date email reminders and a background scheduler
    triggered via `beat`.
-4. Kanban board UI with drag‑and‑drop using a library such as
-   `react-beautiful-dnd`.
-5. End‑to‑end tests for API logic, Celery worker and React components.
+4. Kanban board UI built with **@dnd-kit** and optimistic updates via React Query.
+5. End‑to‑end tests (vitest, Playwright) and contract fuzzing with schemathesis.
 6. Extend pre‑commit config with mypy type checking.
 
 **Checkpoint**

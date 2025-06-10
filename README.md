@@ -29,7 +29,7 @@ data-driven tooling usually reserved for large commercial property managers:
 2 Core Functionalities (MVP)
 ---------------------------
 1. Member & Unit Management – CRUD, unit ↔ member mapping.
-2. Task Tracking – Kanban flow, due-dates & reminders.
+2. Task Tracking – drag‑and‑drop Kanban board with real‑time updates, due-dates & reminders.
 3. Voting & Polling – proposals, ballots, quorum, live results.
 4. Scorecards & Analytics – participation metrics & co-op KPIs.
 5. Notifications – e-mail / in-app alerts, webhook outbox.
@@ -45,6 +45,7 @@ Backend   FastAPI (Python 3.11, async)  + SQLAlchemy ORM + PostgreSQL + Alembic
              │—— Native FastAPI WebSockets for live updates
 
 Frontend  React 18 + TypeScript + Vite + MUI component library
+         └── Kanban board built with @dnd-kit and React Query
 
 DevOps    Docker Compose for local, GitHub Actions CI → optional Kubernetes
 
@@ -119,14 +120,20 @@ cd backend
 pip install -r requirements.txt
 uvicorn app.api:app --reload
 celery -A app.celery_app.celery_app worker --loglevel=info  # optional
-
+```
 
 To initialise the local database using Alembic migrations run:
 
 ```bash
-
+cd backend
+alembic upgrade head
+```
 
 ## Data Model (Phase 1)
+
+Phase 2 introduces a new `lanes` table and adds `lane_id` and `sort_index` fields to `tasks`
+for the Kanban board. The diagrams below still reflect the Phase 1 schema and will be updated
+once migrations land.
 
 ```
  +------------+        +-------------+
@@ -137,32 +144,9 @@ To initialise the local database using Alembic migrations run:
  +------------+    |  | email       |
                   +--| unit_id  FK |
                      +-------------+
-=======
-
-
-## Data Model (Phase 1)
-
-
- +------------+        +-------------+
- | Unit       |        | Member      |
- +------------+        +-------------+
- | id   PK    |<--+  +-| id     PK   |
- | name       |    |  | name        |
- +------------+    |  | email       |
-                  +--| unit_id  FK |
-                     +-------------+
+```
 
 Developer Setup
-
-If you prefer to run the backend without Docker:
-
-```bash
-cd backend
-pip install -r requirements.txt
-pre-commit install   # optional linting hooks
-```
-
-### Developer Setup
 
 If you prefer to run the backend without Docker:
 
