@@ -52,7 +52,7 @@ Tool-chain • Vite + React 18 + TypeScript baseline bootstrapped. ✅ implement
 
 api/ • manual API hooks for users implemented (src/api/users.ts). ✅ functional for user CRUD. • placeholder hooks for units, tasks, votes, metrics in src/api/. ⚙️ implement CRUD hooks and integrate React Query. • configure OpenAPI codegen pipeline for type-safe hook generation. ⚙️ pending.
 
-pages/ • Dashboard: scaffold exists in Dashboard.tsx. ⚙️ implement data fetching and widgets. • Members: full CRUD UI implemented in Members.tsx. ✅ supports list, create, update, delete. • Units: scaffolded in Units.tsx. ⚙️ implement list & form for unit management. • Tasks: scaffolded Kanban view in Tasks.tsx. ⚙️ implement drag-and-drop and API integration. • Votes: scaffolded in Votes.tsx. ⚙️ implement proposals list, voting form, and results. • Scorecards: scaffolded in Scorecards.tsx. ⚙️ implement charts and scorecard displays.
+pages/ • Dashboard: scaffold exists in Dashboard.tsx. ⚙️ implement data fetching and widgets. • Members: full CRUD UI implemented in Members.tsx. ✅ supports list, create, update, delete. • Units: scaffolded in Units.tsx. ⚙️ implement list & form for unit management. • Tasks: scaffolded Kanban view in Tasks.tsx. ⚙️ use @dnd-kit with optimistic cache updates and `/tasks/reorder` endpoint. • Votes: scaffolded in Votes.tsx. ⚙️ implement proposals list, voting form, and results. • Scorecards: scaffolded in Scorecards.tsx. ⚙️ implement charts and scorecard displays.
 
 components/ • DataTable, ConfirmDialog, KanbanBoard, VoteChart components exist as stubs. ⚙️ implement using MUI and charting library (e.g., Recharts).
 

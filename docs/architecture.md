@@ -27,20 +27,38 @@ In local development Docker Compose spins up all services.  In production we
 plan to deploy container images via GitHub Actions to a Kubernetes cluster or a
 similar container orchestrator.
 
-## 3. Diagrams
+## 3. Kanban Board Architecture
+
+```
+┌─────────────┐    WebSocket      ┌────────────────────┐
+│ React GUI   │  ← live updates ─ │ FastAPI  /tasks WS │
+│  dnd-kit    │ ─ REST PATCH/GET →│  + SQLAlchemy ORM  │
+└─────────────┘                   └────────────────────┘
+           ▲                                     │
+           │ TanStack Query cache / optimistic   │
+           ▼                                     ▼
+      Zustand store                    PostgreSQL (Task, Lane tables)
+```
+
+The board is composed using **@dnd-kit** with `SortableContext` and
+`verticalListSortingStrategy`. Task order is kept in React Query cache and
+persisted via `PATCH /tasks/reorder`. Clients subscribe to the
+`tasks.updated` WebSocket topic to synchronise across tabs.
+
+## 4. Diagrams
 
 * **C4** container and component diagrams – TODO (`docs/diagrams/` will contain
   PlantUML sources).
-* **Sequence diagram** for the voting workflow – TODO.
+* **Sequence diagrams** – voting workflow and Kanban drag‑and‑drop.
 * **Entity Relationship Diagram** – generated from SQLAlchemy models using
   `eralchemy`.
 
-## 4. Further Reading
+## 5. Further Reading
 
 See `ROADMAP_REBOOT.md` for the phased development plan and `README.md` for a
 quick overview of the project goals.
 
-## 5. Database Schema
+## 6. Database Schema
 
 The backend currently uses **SQLAlchemy** models with **Alembic** migrations to
 manage schema updates.  During development an SQLite database is created
@@ -53,7 +71,8 @@ or remove columns via new migration scripts.
 |-------------|-----|-------------------------------------------------------------------------------|
 | `units`     | `id` PK | `name` (unique)                                                            |
 | `members`   | `id` PK | `name`, `email` (unique), `unit_id` → `units.id`                           |
-| `tasks`     | `id` PK | `title`, `status` enum, `priority` enum, `due_date`, `assignee_id` → `members.id` |
+| `tasks`     | `id` PK | `title`, `status` enum, `priority` enum, `due_date`, `assignee_id` → `members.id`, `lane_id` → `lanes.id`, `sort_index` float |
+| `lanes`     | `id` PK | `name`, `sort_index` float |
 | `committees` *(planned)* | `id` PK | `name`, `description`                                         |
 
 ### Relationships
@@ -62,6 +81,8 @@ or remove columns via new migration scripts.
   unit via `unit_id`.
 * **Member → Task** – tasks may optionally be assigned to a member via
   `assignee_id`.
+* **Lane → Task** – every task is ordered within a lane via `lane_id` and
+  `sort_index`.
 * **Committee → Task** – future work will allow tasks to be linked to
   committees, enabling group ownership.
 
