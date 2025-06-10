@@ -51,20 +51,20 @@ To avoid repeating these issues we will progress in clearly defined phases with 
 **Goal:** Track tasks and responsibilities.
 
 **Tasks**
-1. Add `Task` model with lane_id and sort_index fields plus status, priority and due date.
-   Create Alembic migration and seed default lanes.
-2. CRUD API with business rules for assignment limits and permission checks.
-   Expose `/lanes` endpoints and `/tasks/reorder` with WebSocket broadcast.
-3. Celery task for due‑date email reminders and a background scheduler
-   triggered via `beat`.
-4. Kanban board UI built with **@dnd-kit** and optimistic updates via React Query.
-5. End‑to‑end tests (vitest, Playwright) and contract fuzzing with schemathesis.
-6. Extend pre‑commit config with mypy type checking.
+1. **Partial** – Task model includes status, priority and due date but no
+   `lane_id` or `sort_index`. Alembic migrations and default lanes still TODO.
+2. **Partial** – CRUD API implemented without assignment limits or WebSocket
+   updates. `/lanes` and `/tasks/reorder` endpoints are pending.
+3. **Stub** Celery task `send_due_date_reminder` exists but scheduler not wired
+   up.
+4. ✅ Kanban board UI built with **@dnd-kit** and React Query.
+5. ❌ End‑to‑end tests (vitest, Playwright) and contract fuzzing not yet set up.
+6. ❌ Pre‑commit config does not run mypy.
 
 **Checkpoint**
-- Tasks can be created, updated, moved between states.
-- Worker sends a test reminder email.
-- All tests pass.
+- CRUD endpoints and Kanban board work with basic status columns.
+- Reminder worker not yet wired up.
+- Backend and frontend unit tests pass.
 
 ## Phase 3 – Voting & Polling
 **Goal:** Allow proposals and secure voting.

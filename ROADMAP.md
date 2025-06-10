@@ -1,7 +1,7 @@
 # theCooperator - Project Roadmap
 
 **Current Stage:** Phase 2 — Tasks & Duties (🟡 in progress)
-*Implementing drag‑and‑drop Kanban board with lanes and real‑time updates.*
+*Basic Kanban board and task CRUD API implemented. Lanes, reminders and live updates still pending.*
  
 ## Completed Phases
 - Phase 0: Foundation stack & CI workflow (🟢 done)

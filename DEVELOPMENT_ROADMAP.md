@@ -39,20 +39,20 @@ models/ • complete SQLAlchemy model stubs for Member, Unit, Task, Proposal, Vo
 
 schemas/ • Generate matching Pydantic v2 models (DTOs) for every SQL model. ✅ schemas implemented for all domain types. • Introduce BaseSchema with JSON-serialization helpers. ⚙️ consider adding base class for shared config.
 
-api/ • api.v1.endpoints.auth: JWT login endpoint with token generation. ✅ implemented. • api.v1.endpoints.members: list/create/update/delete + pagination. ✅ implemented. • api.v1.endpoints.units: list/create/update/delete. ✅ implemented. • api.v1.endpoints.tasks: CRUD for Task objects. ✅ implemented. • api.v1.endpoints.votes, metrics: placeholder endpoints returning 501. ⚙️ implement in Phases 3 & 4. • api.v1.endpoints.todo: in-memory todo example. ⚙️ evaluate removal or integration.
+api/ • api.v1.endpoints.auth: JWT login endpoint with token generation. ✅ implemented. • api.v1.endpoints.members: list/create/update/delete + pagination. ✅ implemented. • api.v1.endpoints.units: list/create/update/delete. ✅ implemented. • api.v1.endpoints.tasks: CRUD for Task objects. ✅ implemented. • api.v1.endpoints.votes, metrics: placeholder endpoints returning 501. ⚙️ implement in Phases 3 & 4. • api.v1.endpoints.todo example removed.
 
 services/ • business rules for task assignment limits and quorum calculation. ⚙️ pending implementation in task_service.py and vote_service.py.
 
 jobs/ • Celery app configuration (celery_app broker setup). ✅ defined in jobs/celery.py. • Celery tasks send_notification_email and recompute_scores exist as placeholders. ⚙️ implement worker discovery and integrate business logic.
 
-tests/ • tests for user & unit endpoints via in-memory SQLite. ✅ passing. • tests for task, vote, metrics endpoints are currently skipped. ⚙️ implement and enable pytest tests; target ≥80% coverage. • GitHub Actions CI pipeline for lint, test, and build. ⚙️ pending workflow setup.
+tests/ • tests for user, unit and task endpoints via in-memory SQLite. ✅ passing. • vote and metrics endpoints still lack tests. ⚙️ implement and aim for ≥80% coverage. • GitHub Actions CI pipeline for lint, test, and build. ⚙️ pending workflow setup.
 
 3.2 frontend/
 Tool-chain • Vite + React 18 + TypeScript baseline bootstrapped. ✅ implemented via Vite template. • ESLint + Prettier dependencies installed. ✅ .eslintrc & .prettierrc configured; pre-commit integration pending. • absolute path aliases configured (@api, @components, etc.). ✅ implemented in vite.config.ts.
 
-api/ • manual API hooks for users implemented (src/api/users.ts). ✅ functional for user CRUD. • placeholder hooks for units, tasks, votes, metrics in src/api/. ⚙️ implement CRUD hooks and integrate React Query. • configure OpenAPI codegen pipeline for type-safe hook generation. ⚙️ pending.
+api/ • manual API hooks for users and tasks implemented. ✅ functional for basic CRUD. • hooks for units, votes and metrics still pending. • configure OpenAPI codegen pipeline for type-safe hook generation. ⚙️ pending.
 
-pages/ • Dashboard: scaffold exists in Dashboard.tsx. ⚙️ implement data fetching and widgets. • Members: full CRUD UI implemented in Members.tsx. ✅ supports list, create, update, delete. • Units: scaffolded in Units.tsx. ⚙️ implement list & form for unit management. • Tasks: scaffolded Kanban view in Tasks.tsx. ⚙️ use @dnd-kit with optimistic cache updates and `/tasks/reorder` endpoint. • Votes: scaffolded in Votes.tsx. ⚙️ implement proposals list, voting form, and results. • Scorecards: scaffolded in Scorecards.tsx. ⚙️ implement charts and scorecard displays.
+pages/ • Dashboard: scaffold exists in Dashboard.tsx. ⚙️ implement data fetching and widgets. • Members: full CRUD UI implemented in Members.tsx. ✅ supports list, create, update, delete. • Units: scaffolded in Units.tsx. ⚙️ implement list & form for unit management. • Tasks: basic Kanban board implemented with @dnd-kit; reorder endpoint pending. • Votes: scaffolded in Votes.tsx. ⚙️ implement proposals list, voting form, and results. • Scorecards: scaffolded in Scorecards.tsx. ⚙️ implement charts and scorecard displays.
 
 components/ • DataTable, ConfirmDialog, KanbanBoard, VoteChart components exist as stubs. ⚙️ implement using MUI and charting library (e.g., Recharts).
 

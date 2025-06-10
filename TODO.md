@@ -5,7 +5,7 @@
 ### Backend
 - [ ] Implement Task CRUD enhancements: due-date reminders and status transitions
 - [ ] Complete business logic in `task_service.py` and `vote_service.py` (assignment limits, quorum calculation)
-- [ ] Remove or integrate the `/api/v1/todo` placeholder endpoint
+- [x] Remove or integrate the `/api/v1/todo` placeholder endpoint
 - [ ] Implement Celery tasks: `send_notification_email` and `recompute_scores`; configure broker and workers
 - [ ] Add Alembic migrations for lane table and `sort_index` on tasks
 - [ ] Expose `/lanes` CRUD and `/tasks/reorder` endpoints with WebSocket broadcasts
@@ -31,5 +31,5 @@
  - [ ] Expand `docs/architecture.md` with C4 diagrams and Kanban sequence diagram
  - [ ] Generate ERD from SQLAlchemy metadata and embed in docs
  - [ ] Update `README.md` quick-start instructions, including front-end proxy setup
- - [ ] Add changelog entry for completed Phase 1 items and update `DEVELOPMENT_ROADMAP.md` statuses
+ - [x] Add changelog entry for completed Phase 1 items and update `DEVELOPMENT_ROADMAP.md` statuses
  - [ ] Finalize `TODO.md` and create GitHub issues for top-priority items
