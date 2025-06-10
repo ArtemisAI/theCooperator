@@ -242,5 +242,6 @@ export function KanbanBoard() {
         })}
       </DndContext>
     </div>
+    </div>
   );
 }

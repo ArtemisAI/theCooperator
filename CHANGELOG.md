@@ -13,6 +13,12 @@
 - `/demo/reset` endpoint for recreating demo fixtures
 - Shared seeding logic for tests and local demo instances
 
+## [0.2.1] - Fix Kanban integration tests
+### Fixed
+- Completed missing closing tag in `KanbanBoard.tsx` causing Vitest failures.
+- Updated frontend tests to reflect API payloads and added cleanup hooks.
+- Ensured backend requirements installed for pytest run.
+
 ## [0.1.0] - Initial Phase 1 Skeleton
 - Added backend FastAPI application with Member and Unit CRUD endpoints.
 - Added SQLite database setup with demo seed data.

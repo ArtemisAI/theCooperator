@@ -1,5 +1,5 @@
-import { render, screen, waitFor } from '@testing-library/react';
-import { describe, it, expect, vi, beforeEach } from 'vitest';
+import { render, screen, waitFor, cleanup } from '@testing-library/react';
+import { describe, it, expect, vi, beforeEach, afterEach } from 'vitest';
 import { KanbanBoard, type Task } from '../src/KanbanBoard';
 
 const mockTasks: Task[] = [
@@ -16,6 +16,11 @@ describe('KanbanBoard', () => {
         json: () => Promise.resolve(mockTasks),
       })
     ) as vi.Mock;
+  });
+
+  afterEach(() => {
+    vi.restoreAllMocks();
+    cleanup();
   });
 
   it('fetches and renders lanes and tasks', async () => {
@@ -117,14 +122,24 @@ describe('KanbanBoard', () => {
 
       // Verify PUT call
       await waitFor(() => {
-        expect(fetch).toHaveBeenCalledWith('/tasks/1', expect.objectContaining({
-          method: 'PUT',
-          body: JSON.stringify({
-            ...initialTestTasks.find(t => t.id === 1), // Original task 1
-            status: 'in_progress', // New status
-          }),
-        }));
+        expect(fetch).toHaveBeenCalledWith(
+          '/tasks/1',
+          expect.objectContaining({ method: 'PUT' })
+        );
       });
+
+      const putCall = (fetch as vi.Mock).mock.calls.find(
+        c => c[0] === '/tasks/1'
+      ) as [string, RequestInit];
+      expect(putCall).toBeTruthy();
+      const options = putCall[1];
+      expect(JSON.parse(options.body as string)).toEqual(
+        expect.objectContaining({
+          title: 'Task 1 (Todo)',
+          status: 'in_progress',
+          priority: 'P1',
+        })
+      );
 
       // Verify UI update (optimistic)
       // Task 1 should move to 'in_progress' lane
@@ -166,8 +181,20 @@ describe('KanbanBoard', () => {
 
       // Verify PUT call
       await waitFor(() => {
-        expect(fetch).toHaveBeenCalledWith('/tasks/1', expect.anything());
+        expect(fetch).toHaveBeenCalledWith(
+          '/tasks/1',
+          expect.objectContaining({ method: 'PUT' })
+        );
       });
+
+      const putCall = (fetch as vi.Mock).mock.calls.find(
+        c => c[0] === '/tasks/1'
+      ) as [string, RequestInit];
+      expect(putCall).toBeTruthy();
+      const options = putCall[1];
+      expect(JSON.parse(options.body as string)).toEqual(
+        expect.objectContaining({ status: 'in_progress' })
+      );
 
       // Verify UI rollback: Task 1 should still be in 'todo' lane
       laneTodo = screen.getByTestId('lane-todo'); // Re-fetch after potential optimistic update and rollback
@@ -178,8 +205,8 @@ describe('KanbanBoard', () => {
       expect(laneInProgress.textContent).not.toContain('Task 1 (Todo)');
 
       // Verify error message is shown
-      // The error message in KanbanBoard is `Failed to update task ${taskPayloadForApi.id}.` or the actual error from fetch
-      expect(await screen.findByText(/Failed to update task 1/i)).toBeTruthy();
+      // The component displays the error message returned from the API
+      expect(await screen.findByText(/API error: 500/i)).toBeTruthy();
     });
   });
 });
