@@ -94,18 +94,17 @@ docs/ architecture.md, business PDFs, etc.
 
 6 Quick-start (dev)
 -------------------
-Prerequisites: Docker + Docker Compose.
+Prerequisites: Python ≥3.11 and Node.js ≥20.
 
 ```bash
 git clone https://github.com/<you>/theCooperator.git
-cd theCooperator/infrastructure
-docker compose up --build
+cd theCooperator
+pip install -r backend/requirements.txt
+uvicorn backend.app.api:app --reload
 ```
 
-The API is now on `http://localhost:8000` – open
-`http://localhost:8000/docs` for the Swagger UI. On first run the
-SQLite database will be created automatically with demo data. You can
-reset the demo fixtures at any time by calling `POST /demo/reset`.
+Open `http://localhost:8000/docs` to explore the API. Demo data is loaded on
+first run. To reset the fixtures call `POST /demo/reset`.
 Run the React app from `frontend/` with:
 
 ```bash
@@ -114,14 +113,10 @@ npm run dev
 ```
 
 The default page currently presents a simple Kanban board powered by dnd-kit and React Query.
-Alternatively run the backend directly during early phases:
-
+Start the optional Celery worker in another terminal:
 
 ```bash
-cd backend
-pip install -r requirements.txt
-uvicorn app.api:app --reload
-celery -A app.celery_app.celery_app worker --loglevel=info  # optional
+celery -A backend.app.celery_app.celery_app worker --loglevel=info
 ```
 
 To initialise the local database using Alembic migrations run:
