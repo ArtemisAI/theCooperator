@@ -120,18 +120,20 @@ cd backend
 pip install -r requirements.txt
 uvicorn app.api:app --reload
 celery -A app.celery_app.celery_app worker --loglevel=info  # optional
-
+```
 
 To initialise the local database using Alembic migrations run:
 
 ```bash
-
+cd backend
+alembic upgrade head
+```
 
 ## Data Model (Phase 1)
 
-Phase 2 introduces a new `lanes` table and adds `lane_id` and `sort_index`
-fields to `tasks` for the Kanban board. The diagrams below still reflect the
-Phase 1 schema and will be updated once migrations land.
+Phase 2 introduces a new `lanes` table and adds `lane_id` and `sort_index` fields to `tasks`
+for the Kanban board. The diagrams below still reflect the Phase 1 schema and will be updated
+once migrations land.
 
 ```
  +------------+        +-------------+
@@ -142,32 +144,9 @@ Phase 1 schema and will be updated once migrations land.
  +------------+    |  | email       |
                   +--| unit_id  FK |
                      +-------------+
-=======
-
-
-## Data Model (Phase 1)
-
-
- +------------+        +-------------+
- | Unit       |        | Member      |
- +------------+        +-------------+
- | id   PK    |<--+  +-| id     PK   |
- | name       |    |  | name        |
- +------------+    |  | email       |
-                  +--| unit_id  FK |
-                     +-------------+
+```
 
 Developer Setup
-
-If you prefer to run the backend without Docker:
-
-```bash
-cd backend
-pip install -r requirements.txt
-pre-commit install   # optional linting hooks
-```
-
-### Developer Setup
 
 If you prefer to run the backend without Docker:
 
