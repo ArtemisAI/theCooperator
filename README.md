@@ -113,7 +113,7 @@ npm install
 npm run dev
 ```
 
-The default page currently presents a simple Kanban board powered by dnd-kit.
+The default page currently presents a simple Kanban board powered by dnd-kit and React Query.
 Alternatively run the backend directly during early phases:
 
 

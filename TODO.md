@@ -15,7 +15,7 @@
 
  ### Frontend
  - [ ] Create API hooks for Units, Tasks, Votes, and Metrics using React Query
- - [ ] Implement Kanban board in `Tasks.tsx` using @dnd-kit with optimistic reordering
+ - [x] Implement Kanban board in `Tasks.tsx` using @dnd-kit with optimistic reordering
  - [ ] Build voting UI in `Votes.tsx`: proposals list, voting form, live result charts
  - [ ] Integrate due-date reminders and notifications in the UI
  - [ ] Secure routes via `AuthContext` and provide JWT token to API client

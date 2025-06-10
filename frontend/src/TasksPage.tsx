@@ -1,14 +1,7 @@
-import { useEffect, useState } from 'react';
-import { KanbanBoard, Task } from './KanbanBoard';
+import { KanbanBoard } from './KanbanBoard';
+import { useTasks } from './hooks';
 
 export function TasksPage() {
-  const [tasks, setTasks] = useState<Task[]>([]);
-
-  useEffect(() => {
-    fetch('/tasks/')
-      .then(r => r.json())
-      .then(data => setTasks(data));
-  }, []);
-
+  const { data: tasks = [] } = useTasks();
   return <KanbanBoard initialTasks={tasks} />;
 }

@@ -6,6 +6,9 @@
 - Implemented Task model, CRUD API and tests.
 - Added Celery skeleton for due-date reminders.
 
+### Frontend
+- Implemented Kanban board with drag-and-drop and React Query task fetching.
+
 ### Added
 - `/demo/reset` endpoint for recreating demo fixtures
 - Shared seeding logic for tests and local demo instances
