@@ -4,14 +4,12 @@ celery
 fastapi
 httpx
 pydantic
-alembic
-httpx
 pytest
 redis
 sqlalchemy
 uvicorn
-httpx
-celery
-redis
-aiosmtplib
+
+# Developer tooling
+flake8
+pre-commit
 

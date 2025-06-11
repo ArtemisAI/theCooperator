@@ -1,14 +1,18 @@
 from pydantic import BaseModel
 from typing import Optional
 
+
 class UnitBase(BaseModel):
     name: str
+
 
 class UnitCreate(UnitBase):
     pass
 
+
 class UnitUpdate(UnitBase):
     pass
+
 
 class Unit(UnitBase):
     id: int
@@ -16,16 +20,20 @@ class Unit(UnitBase):
     class Config:
         orm_mode = True
 
+
 class MemberBase(BaseModel):
     name: str
     email: str
     unit_id: Optional[int] = None
 
+
 class MemberCreate(MemberBase):
     pass
 
+
 class MemberUpdate(MemberBase):
     pass
+
 
 class Member(MemberBase):
     id: int
@@ -44,6 +52,12 @@ class TaskBase(BaseModel):
 
 class TaskCreate(TaskBase):
     pass
+
+
+class TaskUpdate(TaskBase):
+    """Fields allowed to be updated for a task."""
+
+    title: Optional[str] = None
 
 
 class Task(TaskBase):
