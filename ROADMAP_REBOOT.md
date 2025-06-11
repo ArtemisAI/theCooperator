@@ -53,8 +53,9 @@ To avoid repeating these issues we will progress in clearly defined phases with 
 **Tasks**
 1. **Partial** – Task model includes status, priority and due date but no
    `lane_id` or `sort_index`. Alembic migrations and default lanes still TODO.
-2. **Partial** – CRUD API implemented without assignment limits or WebSocket
-   updates. `/lanes` and `/tasks/reorder` endpoints are pending.
+2. **Partial** – CRUD API now includes task updates. Assignment limits and
+   WebSocket updates remain TODO; `/lanes` and `/tasks/reorder` endpoints are
+   pending.
 3. **Stub** Celery task `send_due_date_reminder` exists but scheduler not wired
    up.
 4. ✅ Kanban board UI built with **@dnd-kit** and React Query.

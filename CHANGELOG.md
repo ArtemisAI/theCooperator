@@ -1,5 +1,9 @@
 # Changelog
 
+## [0.2.2] - Kanban update endpoint
+### Added
+- `/tasks/{id}` PUT endpoint and supporting schema to update tasks from the Kanban board.
+
 ## [0.2.0] - Begin Phase 2
 - Marked Phase 1 as complete in documentation.
 - Updated roadmaps and contributor instructions to focus on Task Management.
